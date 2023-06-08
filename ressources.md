@@ -2,8 +2,21 @@
 
 ## Pixel Art
 
+### Pyxel Edit
+
 https://www.pyxeledit.com/
 
 ## Tile Map
 
+### Tiled
 https://www.mapeditor.org/
+
+## Son
+
+### LMMS
+
+https://github.com/LMMS/lmms (séquenceur/tracker et synthèse sonore notamment avec le module SFRX inspiré du logiciel du même nom - plus maintenu aujourd’hui - qui permet de créer facilement des sons style « 8-bits », voir http://drpetter.se/project_sfxr.html)
+
+### Audacity
+
+https://www.audacityteam.org/
