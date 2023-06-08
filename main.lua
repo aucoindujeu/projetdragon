@@ -1,17 +1,16 @@
 Object = require "classic" -- importer des librairies
-push = require "push"
 lume = require "lume"
 require "Player"
+require "Button"
 
 
-local gameWidth, gameHeight = 1080, 720 -- resolution fixe
 windowWidth, windowHeight = love.window.getDesktopDimensions()
-
-push:setupScreen(gameWidth, gameHeight, windowWidth, windowHeight, {fullscreen = false, resizable = true, stretched = true, pixelperfect = true})
-
+love.window.setMode(windowWidth, windowHeight)
 
 font = love.graphics.newFont("DejaVuSans.ttf", 30) -- importer un font
 love.graphics.setFont(font)
+
+love.window.setTitle("Projet Dragon")
 
 
 function love.load()
@@ -42,9 +41,12 @@ function love.load()
     rects = createWorld(tilemaps.overworld, size, rects) -- création du monde
 
     inMenu = true
-    startRect = createRect(100, 100, 100, 50)
-    newGameRect = createRect(100, 300, 180, 50)
-    quitRect = createRect(100, 500, 100, 50)
+
+    menuButtons = {
+        Button(100, 100, 100, 50, "Start!", "start"),
+        Button(100, 300, 180, 50, "New Game!", "newGame"),
+        Button(100, 500, 100, 50, "Quit:(", "quit")
+    }
 end
 
 function love.update(dt)
@@ -52,26 +54,22 @@ function love.update(dt)
         player:update(dt)
     else
         if love.mouse.isDown(1) then
-            local x, y = push:toGame(love.mouse.getX(), love.mouse.getY())
-            if collidePoint(x, y, startRect) then
-                inMenu = false
-            end
-            print(love.mouse.getPosition())
-            if collidePoint(x, y, newGameRect) then
-                resetGame()
-            end
-            if collidePoint(x, y, quitRect) then
-                love.event.quit()
+            if inMenu then
+                for i,v in ipairs(menuButtons) do
+                    local returnValue = v:update()
+                    if returnValue == "Start Game" then
+                        inMenu = false
+                    end
+                end
             end
         end
     end
 end
 
 function love.draw()
-    push:start()
 
     if not inMenu then
-        push:setBorderColor(0/255, 0/255, 0/255)
+        love.graphics.setBackgroundColor(0/255, 0/255, 0/255)
         love.graphics.setColor(0/255, 255/255, 0/255)
 
         -- afficher les obstacles relativement au joueur
@@ -84,20 +82,13 @@ function love.draw()
         -- afficher le joueur
         player:draw()
     else
-        push:setBorderColor(37/255, 91/255, 141/255)
+        love.graphics.setBackgroundColor(37/255, 91/255, 141/255)
 
-        love.graphics.setColor(0, 1, 0)
-        love.graphics.rectangle("line", startRect.x, startRect.y, startRect.width, startRect.height)
-        love.graphics.rectangle("line", newGameRect.x, newGameRect.y, newGameRect.width, newGameRect.height)
-        love.graphics.rectangle("line", quitRect.x, quitRect.y, quitRect.width, quitRect.height)
-        love.graphics.setColor(1, 1, 1)
-
-        love.graphics.print("Start!", font, startRect.x, startRect.y)
-        love.graphics.print("New Game!", font, newGameRect.x, newGameRect.y)
-        love.graphics.print("Quit:(", font, quitRect.x, quitRect.y)
+        for i,v in ipairs(menuButtons) do
+            v:draw()
+        end
     end
 
-    push:finish()
 end
 
 function love.keypressed(key)

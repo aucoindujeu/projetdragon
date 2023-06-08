@@ -2,8 +2,8 @@ Player = Object:extend()
 
 function Player:new(x, y, speed)
     self.rect = createRect(x, y, 50, 100)
-    self.limitX = push:getWidth() / 2 - self.rect.width / 2
-    self.limitY = push:getHeight() / 2 - self.rect.height / 2
+    self.limitX = love.graphics.getWidth() / 2 - self.rect.width / 2
+    self.limitY = love.graphics.getHeight() / 2 - self.rect.height / 2
     self.speed = speed
 end
 
