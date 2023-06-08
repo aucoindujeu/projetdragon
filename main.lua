@@ -72,6 +72,7 @@ function love.draw()
 
     if not inMenu then
         push:setBorderColor(0/255, 0/255, 0/255)
+        love.graphics.setColor(0/255, 255/255, 0/255)
 
         -- afficher les obstacles relativement au joueur
         for i,v in ipairs(rects) do
