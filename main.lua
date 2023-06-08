@@ -52,13 +52,15 @@ function love.update(dt)
         player:update(dt)
     else
         if love.mouse.isDown(1) then
-            if collidePoint(love.mouse.getX(), love.mouse.getY(), startRect) then
+            local x, y = push:toGame(love.mouse.getX(), love.mouse.getY())
+            if collidePoint(x, y, startRect) then
                 inMenu = false
             end
-            if collidePoint(love.mouse.getX(), love.mouse.getY(), newGameRect) then
+            print(love.mouse.getPosition())
+            if collidePoint(x, y, newGameRect) then
                 resetGame()
             end
-            if collidePoint(love.mouse.getX(), love.mouse.getY(), quitRect) then
+            if collidePoint(x, y, quitRect) then
                 love.event.quit()
             end
         end
@@ -66,11 +68,10 @@ function love.update(dt)
 end
 
 function love.draw()
-    -- push:start()
+    push:start()
 
     if not inMenu then
-        love.graphics.setBackgroundColor(0/255, 0/255, 0/255)
-        love.graphics.setColor(0/255, 255/255, 0/255)
+        push:setBorderColor(0/255, 0/255, 0/255)
 
         -- afficher les obstacles relativement au joueur
         for i,v in ipairs(rects) do
@@ -82,8 +83,8 @@ function love.draw()
         -- afficher le joueur
         player:draw()
     else
-        love.graphics.setBackgroundColor(37/255, 91/255, 141/255)
-        
+        push:setBorderColor(37/255, 91/255, 141/255)
+
         love.graphics.setColor(0, 1, 0)
         love.graphics.rectangle("line", startRect.x, startRect.y, startRect.width, startRect.height)
         love.graphics.rectangle("line", newGameRect.x, newGameRect.y, newGameRect.width, newGameRect.height)
@@ -95,7 +96,7 @@ function love.draw()
         love.graphics.print("Quit:(", font, quitRect.x, quitRect.y)
     end
 
-    -- push:finish()
+    push:finish()
 end
 
 function love.keypressed(key)
