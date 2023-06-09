@@ -143,6 +143,10 @@ function createWorld(tilemap, size, rects)
     return rects
 end
 
+function deleteWorld(rects)
+    return lume.clear(rects)
+end
+
 function saveGame()
     local data = {x = player.rect.x, y = player.rect.y, speed = player.speed}
     serialized = lume.serialize(data)
