@@ -10,13 +10,12 @@ end
 function Player:update(dt)
     if love.keyboard.isDown("left") then
         self:left(dt)
-    
     elseif love.keyboard.isDown("right") then
         self:right(dt)
     end
+
     if love.keyboard.isDown("up") then
         self:up(dt)
-    
     elseif love.keyboard.isDown("down") then
         self:down(dt)
     end

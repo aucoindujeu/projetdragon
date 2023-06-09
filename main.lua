@@ -4,7 +4,7 @@ require "Player"
 require "Button"
 
 
-windowWidth, windowHeight = love.window.getDesktopDimensions()
+local windowWidth, windowHeight = love.window.getDesktopDimensions()
 love.window.setMode(windowWidth, windowHeight)
 
 font = love.graphics.newFont("DejaVuSans.ttf", 30) -- importer un font
@@ -23,7 +23,7 @@ function love.load()
         data = lume.deserialize(file)
         player = Player(data.x, data.y, data.speed)
     else
-        player = Player(100, 100, 100)
+        player = Player(100, 100, 200)
     end
 
     tilemaps = {}
@@ -54,9 +54,10 @@ function love.update(dt)
         player:update(dt)
     else
         if love.mouse.isDown(1) then
+            local x, y = love.mouse.getX(), love.mouse.getY()
             if inMenu then
                 for i,v in ipairs(menuButtons) do
-                    local returnValue = v:update()
+                    local returnValue = v:update(x, y)
                     if returnValue == "Start Game" then
                         inMenu = false
                     end
@@ -74,7 +75,12 @@ function love.draw()
 
         -- afficher les obstacles relativement au joueur
         for i,v in ipairs(rects) do
-            love.graphics.rectangle("fill", v.x - player.rect.x + player.limitX, v.y - player.rect.y + player.limitY, v.width, v.height)
+            -- vérifier si l'obstacle et sur l'écran
+            if v.x + v.width - player.rect.x + player.limitX > 0    and    v.x - player.rect.x + player.limitX < love.graphics.getWidth() and
+                v.y + v.height - player.rect.y + player.limitY > 0    and    v.y - player.rect.y + player.limitY < love.graphics.getHeight() then
+
+                love.graphics.rectangle("fill", v.x - player.rect.x + player.limitX, v.y - player.rect.y + player.limitY, v.width, v.height)
+            end
         end
 
         love.graphics.setColor(255/255, 255/255, 255/255)

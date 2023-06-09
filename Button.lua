@@ -6,8 +6,7 @@ function Button:new(x, y, w, h, text, fn)
     self.fn = fn
 end
 
-function Button:update()
-    local x, y = love.mouse.getX(), love.mouse.getY()
+function Button:update(x, y)
     if collidePoint(x, y, self.rect) then
         if self.fn == "start" then
             return "Start Game"
