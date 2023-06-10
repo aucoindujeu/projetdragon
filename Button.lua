@@ -14,6 +14,8 @@ function Button:update(x, y)
             resetGame()
         elseif self.fn == "quit" then
             love.event.quit()
+        elseif self.fn == "controls" then
+            return "Enter controls"
         end
     end
 end

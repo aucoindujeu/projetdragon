@@ -40,27 +40,34 @@ function love.load()
     local size = 50
     rects = createWorld(tilemaps.overworld, size, rects) -- création du monde
 
-    inMenu = true
+    gameStates = {
+        inMenu = true,
+        inControlsMenu = false,
+        inGame = false
+    }
 
     menuButtons = {
         Button(100, 100, 100, 50, "Start!", "start"),
         Button(100, 300, 180, 50, "New Game!", "newGame"),
-        Button(100, 500, 100, 50, "Quit:(", "quit")
+        Button(100, 500, 100, 50, "Quit:(", "quit"),
+        Button(300, 100, 150, 50, "Controls", "controls")
     }
 end
 
 function love.update(dt)
-    if not inMenu then
+    if gameStates.inGame then
         player:update(dt)
-    else
+    elseif gameStates.inMenu then
         if love.mouse.isDown(1) then
             local x, y = love.mouse.getX(), love.mouse.getY()
-            if inMenu then
-                for i,v in ipairs(menuButtons) do
-                    local returnValue = v:update(x, y)
-                    if returnValue == "Start Game" then
-                        inMenu = false
-                    end
+            for i,v in ipairs(menuButtons) do
+                local returnValue = v:update(x, y)
+                if returnValue == "Start Game" then
+                    resetGameStates()
+                    gameStates.inGame = true
+                elseif returnValue == "Enter controls" then
+                    resetGameStates()
+                    gameStates.inControlsMenu = true
                 end
             end
         end
@@ -69,13 +76,13 @@ end
 
 function love.draw()
 
-    if not inMenu then
+    if gameStates.inGame then
         love.graphics.setBackgroundColor(0/255, 0/255, 0/255)
         love.graphics.setColor(0/255, 255/255, 0/255)
 
         -- afficher les obstacles relativement au joueur
         for i,v in ipairs(rects) do
-            -- vérifier si l'obstacle et sur l'écran
+            -- vérifier si l'obstacle est sur l'écran
             if v.x + v.width - player.rect.x + player.limitX > 0    and    v.x - player.rect.x + player.limitX < love.graphics.getWidth() and
                 v.y + v.height - player.rect.y + player.limitY > 0    and    v.y - player.rect.y + player.limitY < love.graphics.getHeight() then
 
@@ -87,12 +94,18 @@ function love.draw()
 
         -- afficher le joueur
         player:draw()
-    else
+
+    elseif gameStates.inMenu then
         love.graphics.setBackgroundColor(37/255, 91/255, 141/255)
 
         for i,v in ipairs(menuButtons) do
             v:draw()
         end
+    
+    elseif gameStates.inControlsMenu then
+        love.graphics.setBackgroundColor(37/255, 91/255, 141/255)
+
+        love.graphics.print("move: arrow keys\n\nreturn: escape", 100, 100)
     end
 
 end
@@ -103,16 +116,22 @@ function love.keypressed(key)
     end
     if key == "escape" then
         saveGame()
-        if inMenu then
-            love.event.quit()
-        else
-            inMenu = true
+        if gameStates.inGame then
+            resetGameStates()
+            gameStates.inMenu = true
+        elseif gameStates.inMenu then
+            love.event.quit()  
+        elseif gameStates.inControlsMenu then
+            resetGameStates()
+            gameStates.inMenu = true
         end
     end
     if key == "s" then
         saveGame()
     end
 end
+
+
 
 function createRect(x, y, width, height)
     return {x = x, y = y, width = width, height = height}
@@ -137,6 +156,8 @@ function collideList(list, rect)
     return false
 end
 
+
+
 function createWorld(tilemap, size, rects)
     for y,v in ipairs(tilemap) do
         for x,w in ipairs(tilemap[y]) do
@@ -152,6 +173,14 @@ end
 function deleteWorld(rects)
     return lume.clear(rects)
 end
+
+
+function resetGameStates()
+    for k,v in pairs(gameStates) do
+        gameStates[k] = false
+    end
+end
+
 
 function saveGame()
     local data = {x = player.rect.x, y = player.rect.y, speed = player.speed}
