@@ -31,25 +31,25 @@ end
 
 function Player:left(dt)
     -- vérifier si le mouvement rentrerait en collision avec un bloc
-    if not collideList(rects, createRect(self.rect.x - self.speed * dt, self.rect.y, self.rect.width, self.rect.height)) then
+    if not collideList(rects, createRect(self.rect.x - self.speed * dt, self.rect.y, self.rect.width, self.rect.height), true) then
         self.rect.x = self.rect.x - self.speed * dt
     end
 end
 
 function Player:right(dt)
-    if not collideList(rects, createRect(self.rect.x + self.speed * dt, self.rect.y, self.rect.width, self.rect.height)) then
+    if not collideList(rects, createRect(self.rect.x + self.speed * dt, self.rect.y, self.rect.width, self.rect.height), true) then
         self.rect.x = self.rect.x + self.speed * dt
     end
 end
 
 function Player:up(dt)
-    if not collideList(rects, createRect(self.rect.x, self.rect.y - self.speed * dt, self.rect.width, self.rect.height)) then
+    if not collideList(rects, createRect(self.rect.x, self.rect.y - self.speed * dt, self.rect.width, self.rect.height), true) then
         self.rect.y = self.rect.y - self.speed * dt
     end
 end
 
 function Player:down(dt)
-    if not collideList(rects, createRect(self.rect.x, self.rect.y + self.speed * dt, self.rect.width, self.rect.height)) then
+    if not collideList(rects, createRect(self.rect.x, self.rect.y + self.speed * dt, self.rect.width, self.rect.height), true) then
         self.rect.y = self.rect.y + self.speed * dt
     end
 end

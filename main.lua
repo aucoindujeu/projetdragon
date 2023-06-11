@@ -2,6 +2,7 @@ Object = require "classic" -- importer des librairies
 lume = require "lume"
 require "Player"
 require "Button"
+require "Rect"
 
 
 local windowWidth, windowHeight = love.window.getDesktopDimensions()
@@ -33,7 +34,7 @@ function love.load()
         {0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
         {0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
         {0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
-        {0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 2, 1, 0},
     }
 
     rects = {}
@@ -78,16 +79,10 @@ function love.draw()
 
     if gameStates.inGame then
         love.graphics.setBackgroundColor(0/255, 0/255, 0/255)
-        love.graphics.setColor(0/255, 255/255, 0/255)
 
         -- afficher les obstacles relativement au joueur
         for i,v in ipairs(rects) do
-            -- vérifier si l'obstacle est sur l'écran
-            if v.x + v.width - player.rect.x + player.limitX > 0    and    v.x - player.rect.x + player.limitX < love.graphics.getWidth() and
-                v.y + v.height - player.rect.y + player.limitY > 0    and    v.y - player.rect.y + player.limitY < love.graphics.getHeight() then
-
-                love.graphics.rectangle("fill", v.x - player.rect.x + player.limitX, v.y - player.rect.y + player.limitY, v.width, v.height)
-            end
+            v:draw()
         end
 
         love.graphics.setColor(255/255, 255/255, 255/255)
@@ -147,10 +142,19 @@ function collidePoint(x, y, rect)
             y > rect.y and y < rect.y + rect.height)
 end
 
-function collideList(list, rect)
-    for i,v in ipairs(list) do
-        if collideRect(v, rect) == true then
-            return true
+function collideList(list, rect, isClass)
+    isClass = isClass or false
+    if isClass then
+        for i,v in ipairs(list) do
+            if collideRect(v.rect, rect) then
+                return true
+            end
+        end
+    else
+        for i,v in ipairs(list) do
+            if collideRect(v, rect) then
+                return true
+            end
         end
     end
     return false
@@ -162,7 +166,9 @@ function createWorld(tilemap, size, rects)
     for y,v in ipairs(tilemap) do
         for x,w in ipairs(tilemap[y]) do
             if w == 1 then
-                table.insert(rects, createRect(x * size, y * size, size, size))
+                table.insert(rects, Rect(x * size, y * size, size, size, "rect"))
+            elseif w == 2 then
+                table.insert(rects, Rect(x * size, y * size, size, size, "rectBlue"))
             end
         end
     end
