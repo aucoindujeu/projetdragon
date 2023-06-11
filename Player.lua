@@ -19,6 +19,12 @@ function Player:update(dt)
     elseif love.keyboard.isDown("down") then
         self:down(dt)
     end
+
+    for i,v in ipairs(doors) do
+        if collideRect(v.rect, self.rect) then
+            changeWorld(v, 50)
+        end
+    end
 end
 
 function Player:draw()

@@ -5,10 +5,6 @@ function Rect:new(x, y, w, h, type)
     self.type = type
 end
 
-function Rect:update()
-    
-end
-
 function Rect:draw()
     -- vérifier si l'obstacle est sur l'écran
     if self.rect.x + self.rect.width - player.rect.x + player.limitX > 0    and    self.rect.x - player.rect.x + player.limitX < love.graphics.getWidth() and

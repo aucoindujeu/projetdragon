@@ -3,6 +3,7 @@ lume = require "lume"
 require "Player"
 require "Button"
 require "Rect"
+require "Door"
 
 
 local windowWidth, windowHeight = love.window.getDesktopDimensions()
@@ -29,17 +30,27 @@ function love.load()
 
     tilemaps = {}
     tilemaps.overworld = {  -- initialiser le monde
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-        {0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
-        {0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
-        {0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
-        {0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
-        {0, 0, 0, 0, 1, 0, 0, 0, 2, 1, 0},
+        {20, 10, 10, 10, 10, 10, 10, 10, 10, 11, 10},
+        {10, 10, 10, 10, 11, 10, 10, 10, 10, 11, 10},
+        {10, 10, 10, 10, 11, 10, 10, 10, 10, 11, 10},
+        {10, 10, 10, 10, 11, 10, 10, 10, 10, 11, 10},
+        {10, 10, 10, 10, 11, 10, 10, 10, 10, 11, 10},
+        {10, 10, 10, 10, 11, 10, 10, 10, 12, 11, 10},
+    }
+
+    tilemaps.underworld = {  -- initialiser le monde
+        {21, 10, 10, 10, 10, 10, 10, 10, 12, 11, 10},
+        {10, 10, 10, 10, 11, 10, 10, 10, 12, 11, 10},
+        {10, 10, 10, 10, 11, 10, 10, 10, 12, 11, 10},
+        {10, 10, 10, 10, 11, 10, 10, 10, 12, 11, 10},
+        {10, 10, 10, 10, 11, 10, 10, 10, 12, 11, 10},
+        {10, 10, 10, 10, 11, 10, 10, 10, 12, 11, 10},
     }
 
     rects = {}
+    doors = {}
     local size = 50
-    rects = createWorld(tilemaps.overworld, size, rects) -- création du monde
+    createWorld(tilemaps.overworld, size) -- création du monde
 
     gameStates = {
         inMenu = true,
@@ -63,10 +74,10 @@ function love.update(dt)
             local x, y = love.mouse.getX(), love.mouse.getY()
             for i,v in ipairs(menuButtons) do
                 local returnValue = v:update(x, y)
-                if returnValue == "Start Game" then
+                if returnValue == "startGame" then
                     resetGameStates()
                     gameStates.inGame = true
-                elseif returnValue == "Enter controls" then
+                elseif returnValue == "enterControls" then
                     resetGameStates()
                     gameStates.inControlsMenu = true
                 end
@@ -82,6 +93,9 @@ function love.draw()
 
         -- afficher les obstacles relativement au joueur
         for i,v in ipairs(rects) do
+            v:draw()
+        end
+        for i,v in ipairs(doors) do
             v:draw()
         end
 
@@ -162,22 +176,36 @@ end
 
 
 
-function createWorld(tilemap, size, rects)
+function createWorld(tilemap, size)
     for y,v in ipairs(tilemap) do
         for x,w in ipairs(tilemap[y]) do
-            if w == 1 then
+            if w == 11 then
                 table.insert(rects, Rect(x * size, y * size, size, size, "rect"))
-            elseif w == 2 then
+            elseif w == 12 then
                 table.insert(rects, Rect(x * size, y * size, size, size, "rectBlue"))
+            elseif w == 20 then
+                table.insert(doors, Door(x * size, y * size, size, size, "underworld"))
+            elseif w == 21 then
+                table.insert(doors, Door(x * size, y * size, size, size, "overworld"))
             end
         end
     end
-
-    return rects
 end
 
-function deleteWorld(rects)
-    return lume.clear(rects)
+function deleteWorld()
+    lume.clear(rects)
+    lume.clear(doors)
+end
+
+function changeWorld(door, size)
+    deleteWorld()
+    if door.destination == "overworld" then
+        createWorld(tilemaps.overworld, size)
+    elseif door.destination == "underworld" then
+        createWorld(tilemaps.underworld, size)
+    end
+    player.rect.x = door.rect.x
+    player.rect.y = door.rect.y + door.rect.height + 5
 end
 
 

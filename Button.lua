@@ -9,13 +9,13 @@ end
 function Button:update(x, y)
     if collidePoint(x, y, self.rect) then
         if self.fn == "start" then
-            return "Start Game"
+            return "startGame"
         elseif self.fn == "newGame" then
             resetGame()
         elseif self.fn == "quit" then
             love.event.quit()
         elseif self.fn == "controls" then
-            return "Enter controls"
+            return "enterControls"
         end
     end
 end
