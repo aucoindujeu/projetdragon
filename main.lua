@@ -23,9 +23,9 @@ function love.load()
     if love.filesystem.getInfo(savedata) then
         file = love.filesystem.read(savedata)
         data = lume.deserialize(file)
-        player = Player(data.x, data.y, data.speed)
+        player = Player(data.x, data.y, data.speed, data.location)
     else
-        player = Player(100, 100, 200)
+        player = Player(100, 100, 200, "overworld")
     end
 
     tilemaps = {}
@@ -44,13 +44,17 @@ function love.load()
         {10, 10, 10, 10, 11, 10, 10, 10, 12, 11, 10},
         {10, 10, 10, 10, 11, 10, 10, 10, 12, 11, 10},
         {10, 10, 10, 10, 11, 10, 10, 10, 12, 11, 10},
-        {10, 10, 10, 10, 11, 10, 10, 10, 12, 11, 10},
+        {10, 10, 10, 11, 11, 10, 10, 10, 12, 11, 10},
     }
 
     rects = {}
     doors = {}
     local size = 50
-    createWorld(tilemaps.overworld, size) -- création du monde
+    if player.location == "overworld" then
+        createWorld(tilemaps.overworld, size) -- création du monde
+    elseif player.location == "underworld" then
+        createWorld(tilemaps.underworld, size)
+    end
 
     gameStates = {
         inMenu = true,
@@ -69,6 +73,7 @@ end
 function love.update(dt)
     if gameStates.inGame then
         player:update(dt)
+
     elseif gameStates.inMenu then
         if love.mouse.isDown(1) then
             local x, y = love.mouse.getX(), love.mouse.getY()
@@ -204,9 +209,11 @@ function changeWorld(door, size)
     elseif door.destination == "underworld" then
         createWorld(tilemaps.underworld, size)
     end
+    player.location = door.destination
     player.rect.x = door.rect.x
     player.rect.y = door.rect.y + door.rect.height + 5
 end
+
 
 
 function resetGameStates()
@@ -216,8 +223,9 @@ function resetGameStates()
 end
 
 
+
 function saveGame()
-    local data = {x = player.rect.x, y = player.rect.y, speed = player.speed}
+    local data = {x = player.rect.x, y = player.rect.y, speed = player.speed, location = player.location}
     serialized = lume.serialize(data)
     love.filesystem.write(savedata, serialized)
 end
