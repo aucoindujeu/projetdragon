@@ -1,0 +1,50 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "lake1.tmx": {
+            "scale": 1.8524999999999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.32388663967612,
+                "y": 160.05398110661272
+            }
+        },
+        "lake1.tmx#Overworld": {
+            "scaleInDock": 1
+        },
+        "plains1.tmx": {
+            "scale": 1.8524999999999998,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 160.32388663967612,
+                "y": 160.05398110661272
+            }
+        },
+        "plains1.tmx#Overworld": {
+            "scaleInDock": 1
+        }
+    },
+    "last.exportedFilePath": "/home/elliott/Documents/lua/projetDragon/maps",
+    "last.imagePath": "/home/elliott/Documents/lua/projetDragon/images/gfx",
+    "map.lastUsedExportFilter": "Tous les Fichiers (*)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 20,
+    "openFiles": [
+    ],
+    "project": "rpgMaps.tiled-project",
+    "recentFiles": [
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
