@@ -64,7 +64,7 @@ function love.keypressed(key)
 end
 
 
-function createRect(x, y, w, h, t, d, mask) -- x:Xpos, y:Ypos, w:Width, h:Height, t:Type("static", "dynamic"), d:Density, g:Ground mask:setMask
+function createRect(x, y, w, h, t, d, mask) -- x:Xpos, y:Ypos, w:Width, h:Height, t:Type("static", "dynamic"), d:Density, mask:setMask
     local mask = mask or 16
     local rect = {
     body = love.physics.newBody( world, x, y, t ),
@@ -82,7 +82,7 @@ end
 function createWorld(map)
     if map.layers["Walls"] then
         for i, obj in pairs(map.layers["Walls"].objects) do
-            local wall = createRect(obj.x, obj.y, obj.width, obj.height, "static", 1)
+            local wall = createRect(obj.x + obj.width / 2, obj.y + obj.height / 2, obj.width, obj.height, "static", 1)
             table.insert(walls, wall)
         end
     end

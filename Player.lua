@@ -2,6 +2,7 @@ Player = Object:extend()
 
 function Player:new(x, y, speed)
     self.rect = createRect(x, y, 20, 30, "dynamic", 1)
+    self.rect.body:setFixedRotation(true)
     self.speed = speed
 
     self.dir = "down"
@@ -53,53 +54,50 @@ function Player:update(dt)
 end
 
 function Player:draw()
-    -- love.graphics.rectangle("fill",
-    --                         self.rect.body:getX(), 
-    --                         self.rect.body:getX(),
-    --                         self.rect.width,
-    --                         self.rect.height)
+    local x = self.rect.body:getX() - self.rect.width / 2
+    local y = self.rect.body:getY() - self.rect.height / 2
     if self.walking then
         if self.dir == "down" then
-            love.graphics.draw(self.AnimationWalkDown[math.floor(self.AnimationWalkTimer)], self.rect.body:getX(), self.rect.body:getY(), 0,
+            love.graphics.draw(self.AnimationWalkDown[math.floor(self.AnimationWalkTimer)], x, y, 0,
                                 self.rect.width / self.AnimationWalkDown[1]:getWidth(),
                                 self.rect.height / self.AnimationWalkDown[1]:getHeight())
 
         elseif self.dir == "up" then
-            love.graphics.draw(self.AnimationWalkUp[math.floor(self.AnimationWalkTimer)], self.rect.body:getX(), self.rect.body:getY(), 0,
-                                self.rect.width / self.AnimationWalkUp[1]:getWidth(),
-                                self.rect.height / self.AnimationWalkUp[1]:getHeight())
+            love.graphics.draw(self.AnimationWalkUp[math.floor(self.AnimationWalkTimer)], x, y, 0,
+                                self.rect.width / self.AnimationWalkUp[math.floor(self.AnimationWalkTimer)]:getWidth(),
+                                self.rect.height / self.AnimationWalkUp[math.floor(self.AnimationWalkTimer)]:getHeight())
 
         elseif self.dir == "right" then
-            love.graphics.draw(self.AnimationWalkRight[math.floor(self.AnimationWalkTimer)], self.rect.body:getX(), self.rect.body:getY(), 0,
-                                self.rect.width / self.AnimationWalkRight[1]:getWidth(),
-                                self.rect.height / self.AnimationWalkRight[1]:getHeight())
+            love.graphics.draw(self.AnimationWalkRight[math.floor(self.AnimationWalkTimer)], x, y, 0,
+                                self.rect.width / self.AnimationWalkRight[math.floor(self.AnimationWalkTimer)]:getWidth(),
+                                self.rect.height / self.AnimationWalkRight[math.floor(self.AnimationWalkTimer)]:getHeight())
 
         elseif self.dir == "left" then
-            love.graphics.draw(self.AnimationWalkRight[math.floor(self.AnimationWalkTimer)], self.rect.body:getX() + self.rect.width, self.rect.body:getY(), 0,
-                                -(self.rect.width / self.AnimationWalkRight[1]:getWidth()),
-                                self.rect.height / self.AnimationWalkRight[1]:getHeight())
+            love.graphics.draw(self.AnimationWalkRight[math.floor(self.AnimationWalkTimer)], x + self.rect.width, y, 0,
+                                -(self.rect.width / self.AnimationWalkRight[math.floor(self.AnimationWalkTimer)]:getWidth()),
+                                self.rect.height / self.AnimationWalkRight[math.floor(self.AnimationWalkTimer)]:getHeight())
         end
     else
         if self.dir == "down" then
-            love.graphics.draw(self.AnimationWalkDown[1], self.rect.body:getX(), self.rect.body:getY(), 0,
+            love.graphics.draw(self.AnimationWalkDown[1], x, y, 0,
                                 self.rect.width / self.AnimationWalkDown[1]:getWidth(),
                                 self.rect.height / self.AnimationWalkDown[1]:getHeight())
         end
 
         if self.dir == "up" then
-            love.graphics.draw(self.AnimationWalkUp[1], self.rect.body:getX(), self.rect.body:getY(), 0,
+            love.graphics.draw(self.AnimationWalkUp[1], x, y, 0,
                                 self.rect.width / self.AnimationWalkUp[1]:getWidth(),
                                 self.rect.height / self.AnimationWalkUp[1]:getHeight())
         end
 
         if self.dir == "right" then
-            love.graphics.draw(self.AnimationWalkRight[1], self.rect.body:getX(), self.rect.body:getY(), 0,
+            love.graphics.draw(self.AnimationWalkRight[1], x, y, 0,
                                 self.rect.width / self.AnimationWalkRight[1]:getWidth(),
                                 self.rect.height / self.AnimationWalkRight[1]:getHeight())
         end
 
         if self.dir == "left" then
-            love.graphics.draw(self.AnimationWalkRight[1], self.rect.body:getX() + self.rect.width, self.rect.body:getY(), 0,
+            love.graphics.draw(self.AnimationWalkRight[1], x + self.rect.width, y, 0,
                                 -(self.rect.width / self.AnimationWalkRight[1]:getWidth()),
                                 self.rect.height / self.AnimationWalkRight[1]:getHeight())
         end
