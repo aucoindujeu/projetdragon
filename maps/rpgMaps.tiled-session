@@ -9,7 +9,7 @@
     "fileStates": {
         "lake1.tmx": {
             "scale": 1.8524999999999998,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": 160.32388663967612,
                 "y": 160.05398110661272
@@ -20,7 +20,7 @@
         },
         "plains1.tmx": {
             "scale": 1.8524999999999998,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": 160.32388663967612,
                 "y": 160.05398110661272

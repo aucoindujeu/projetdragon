@@ -32,9 +32,6 @@ function love.load()
     gamestate.registerEvents()
     gamestate.switch(menu)
 
-    plains1 = sti("maps/plains1.lua")
-    lake1 = sti("maps/lake1.lua")
-
     walls = {}
 
     savedata = "savedata.txt"
@@ -79,13 +76,34 @@ end
 
 
 
-function createWorld(map)
-    if map.layers["Walls"] then
-        for i, obj in pairs(map.layers["Walls"].objects) do
-            local wall = createRect(obj.x + obj.width / 2, obj.y + obj.height / 2, obj.width, obj.height, "static", 1)
-            table.insert(walls, wall)
+function createWorld()
+    local tiles = {}
+    local tileSet = {
+        {1, 2, 1, 1},
+        {1, 1, 1, 1},
+        {2, 1, 1, 2},
+    }
+
+    local loops = 1
+    for y, v in ipairs(tileSet) do
+        for x, w in ipairs(v) do
+            local ox = (x - 1) * 16 * 20
+            local oy = (y - 1) * 16 * 20
+            if w == 1 then
+                table.insert(tiles, sti("maps/plains1.lua", {}, ox, oy))
+            elseif w == 2 then
+                table.insert(tiles, sti("maps/lake1.lua", {}, ox, oy))
+            end
+            if tiles[loops].layers["Walls"] then
+                for i, obj in pairs(tiles[loops].layers["Walls"].objects) do
+                    local wall = createRect(obj.x + obj.width / 2 + ox, obj.y + obj.height / 2 + oy, obj.width, obj.height, "static", 1)
+                    table.insert(walls, wall)
+                end
+            end
+            loops = loops + 1
         end
     end
+    return tiles
 end
 
 function deleteWorld()

@@ -1,18 +1,16 @@
 local game = {}
 
 function game:enter()
-    createWorld(plains1)
+    game.tiles = createWorld()
 end
 
 function game:update(dt)
     player:update(dt)
     cam:lookAt(player.rect.body:getX() + player.rect.width / 2, player.rect.body:getY() + player.rect.height / 2)
-    
 end
 
 function game:draw()
     cam:attach()
-        plains1:drawLayer(plains1.layers["Ground"])
         -- plains1:drawObjectLayer(plains1.layers["Walls"])
 
         -- love.graphics.setColor(1, 0, 0)
@@ -21,7 +19,10 @@ function game:draw()
         -- end
         -- love.graphics.setColor(1, 1, 1)
 
-        plains1:drawLayer(plains1.layers["Objects"])
+        for i, v in ipairs(game.tiles) do
+            v:drawLayer(v.layers["Ground"])
+            v:drawLayer(v.layers["Objects"])
+        end
         player:draw()
     cam:detach()
 end
