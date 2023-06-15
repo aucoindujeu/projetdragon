@@ -1,7 +1,7 @@
 local game = {}
 
 function game:enter()
-    game.tiles = createWorld()
+    game.tiles = createWorld(data.newWorld)
 end
 
 function game:update(dt)

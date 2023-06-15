@@ -21,7 +21,15 @@ love.graphics.setFont(font)
 
 love.window.setTitle("Projet Dragon")
 
-data = {x = 100, y = 100, speed = 100}
+data = {x = 100, y = 100, speed = 100, newWorld = true,
+        tileSet = {
+            {1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1},
+        }}
 
 
 function love.load()
@@ -44,6 +52,7 @@ function love.load()
         data = lume.deserialize(file)
     end
     player = Player(data.x, data.y, data.speed)
+    -- print(data.newWorld)
 end
 
 function love.update(dt)
@@ -78,28 +87,23 @@ end
 
 
 
-function createWorld()
+function createWorld(newWorld)
     local tiles = {}
-    local tileSet = {
-        {1, 2, 1, 1, 2, 1, 1},
-        {1, 1, 1, 1, 2, 1, 1},
-        {2, 1, 3, 2, 2, 1, 1},
-        {2, 1, 3, 2, 2, 1, 1},
-        {2, 1, 3, 2, 2, 1, 1},
-        {2, 1, 3, 2, 2, 1, 1},
-    }
+    local tileSet = data.tileSet
 
     local loops = 1
     for y, v in ipairs(tileSet) do
         for x, w in ipairs(v) do
-            w = love.math.random(1, 3)
+            if data.newWorld then
+                tileSet[y][x] = love.math.random(1, 3)
+            end
             local ox = (x - 1) * 16 * 20
             local oy = (y - 1) * 16 * 20
-            if w == 1 then
+            if tileSet[y][x] == 1 then
                 table.insert(tiles, sti("maps/plains1.lua", {}, ox, oy))
-            elseif w == 2 then
+            elseif tileSet[y][x] == 2 then
                 table.insert(tiles, sti("maps/lake1.lua", {}, ox, oy))
-            elseif w == 3 then
+            elseif tileSet[y][x] == 3 then
                 table.insert(tiles, sti("maps/village1.lua", {}, ox, oy))
             end
             if tiles[loops].layers["Walls"] then
@@ -111,6 +115,9 @@ function createWorld()
             loops = loops + 1
         end
     end
+    print(tileSet[1][1])
+    data.tileSet = tileSet
+    data.newWorld = false
     return tiles
 end
 
