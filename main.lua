@@ -25,7 +25,9 @@ data = {x = 100, y = 100, speed = 100}
 
 
 function love.load()
-    cam = camera(0, 0, 4)
+    love.math.setRandomSeed(os.time())
+
+    cam = camera(0, 0, 3)
 
     world = love.physics.newWorld(0, 0, true)
 
@@ -79,20 +81,26 @@ end
 function createWorld()
     local tiles = {}
     local tileSet = {
-        {1, 2, 1, 1},
-        {1, 1, 1, 1},
-        {2, 1, 1, 2},
+        {1, 2, 1, 1, 2, 1, 1},
+        {1, 1, 1, 1, 2, 1, 1},
+        {2, 1, 3, 2, 2, 1, 1},
+        {2, 1, 3, 2, 2, 1, 1},
+        {2, 1, 3, 2, 2, 1, 1},
+        {2, 1, 3, 2, 2, 1, 1},
     }
 
     local loops = 1
     for y, v in ipairs(tileSet) do
         for x, w in ipairs(v) do
+            w = love.math.random(1, 3)
             local ox = (x - 1) * 16 * 20
             local oy = (y - 1) * 16 * 20
             if w == 1 then
                 table.insert(tiles, sti("maps/plains1.lua", {}, ox, oy))
             elseif w == 2 then
                 table.insert(tiles, sti("maps/lake1.lua", {}, ox, oy))
+            elseif w == 3 then
+                table.insert(tiles, sti("maps/village1.lua", {}, ox, oy))
             end
             if tiles[loops].layers["Walls"] then
                 for i, obj in pairs(tiles[loops].layers["Walls"].objects) do
