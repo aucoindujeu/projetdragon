@@ -94,17 +94,43 @@ function createWorld(newWorld)
     local loops = 1
     for y, v in ipairs(tileSet) do
         for x, w in ipairs(v) do
+            local choices = {["1"] = 2, ["2"] = 1, ["3"] = 1}
+
             if data.newWorld then
-                tileSet[y][x] = love.math.random(1, 3)
+                if y == 1 and x > 1 then  
+                    if tileSet[y][x - 1] == "1" then
+                        choices["1"] = 2.5
+                    elseif tileSet[y][x - 1] == "2" then
+                        choices["2"] = 2
+                    elseif tileSet[y][x - 1] == "3" then
+                        choices["3"] = 2
+                    end
+
+                elseif y > 1 and x > 1 then
+                    if tileSet[y - 1][x - 1] == "1" then
+                        choices["1"] = 2.5
+                    elseif tileSet[y - 1][x - 1] == "2" then
+                        choices["2"] = 2
+                    elseif tileSet[y - 1][x - 1] == "3" then
+                        choices["3"] = 2
+                    end
+                end
+
+                tileSet[y][x] = lume.weightedchoice(choices)
             end
+
             local ox = (x - 1) * 16 * 20
             local oy = (y - 1) * 16 * 20
-            if tileSet[y][x] == 1 then
+            
+            local n = love.math.random(1, 2)
+            if tileSet[y][x] == "1" then
                 table.insert(tiles, sti("maps/plains1.lua", {}, ox, oy))
-            elseif tileSet[y][x] == 2 then
-                table.insert(tiles, sti("maps/lake1.lua", {}, ox, oy))
-            elseif tileSet[y][x] == 3 then
-                table.insert(tiles, sti("maps/village1.lua", {}, ox, oy))
+            elseif tileSet[y][x] == "2" then
+                table.insert(tiles, sti("maps/lake" .. n .. ".lua", {}, ox, oy))
+            elseif tileSet[y][x] == "3" then
+                table.insert(tiles, sti("maps/village" .. n ..".lua", {}, ox, oy))
+            else
+                table.insert(tiles, sti("maps/plains1.lua", {}, ox, oy))
             end
             if tiles[loops].layers["Walls"] then
                 for i, obj in pairs(tiles[loops].layers["Walls"].objects) do

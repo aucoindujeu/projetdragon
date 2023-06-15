@@ -21,6 +21,17 @@
         "lake1.tmx#Overworld": {
             "scaleInDock": 1
         },
+        "lake2.tmx": {
+            "scale": 1.8524999999999998,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 160.32388663967612,
+                "y": 160.05398110661272
+            }
+        },
+        "lake2.tmx#Overworld": {
+            "scaleInDock": 1
+        },
         "plains1.tmx": {
             "expandedObjectLayers": [
                 3
@@ -33,6 +44,17 @@
             }
         },
         "plains1.tmx#Overworld": {
+            "scaleInDock": 1
+        },
+        "village1.tmx": {
+            "scale": 1.8524999999999998,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 160.32388663967612,
+                "y": 160.05398110661272
+            }
+        },
+        "village1.tmx#Overworld": {
             "scaleInDock": 1
         }
     },
