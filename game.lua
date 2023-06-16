@@ -20,8 +20,15 @@ function game:draw()
         -- love.graphics.setColor(1, 1, 1)
 
         for i, v in ipairs(game.tiles) do
-            v:drawLayer(v.layers["Ground"])
-            v:drawLayer(v.layers["Objects"])
+            if v.layers["Ground"] then
+                v:drawLayer(v.layers["Ground"])
+            end
+            if v.layers["Objects"] then
+                v:drawLayer(v.layers["Objects"])
+            end
+            if v.layers["Objects2"] then
+                v:drawLayer(v.layers["Objects2"])
+            end
         end
         player:draw()
     cam:detach()

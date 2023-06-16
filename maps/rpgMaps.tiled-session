@@ -7,6 +7,17 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "castle1.tmx": {
+            "scale": 1.8524999999999998,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 160.32388663967612,
+                "y": 160.05398110661272
+            }
+        },
+        "castle1.tmx#Overworld": {
+            "scaleInDock": 1
+        },
         "lake1.tmx": {
             "expandedObjectLayers": [
                 3
@@ -22,6 +33,9 @@
             "scaleInDock": 1
         },
         "lake2.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
             "scale": 1.8524999999999998,
             "selectedLayer": 1,
             "viewCenter": {
@@ -46,6 +60,20 @@
         "plains1.tmx#Overworld": {
             "scaleInDock": 1
         },
+        "plains2.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1.8524999999999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.32388663967612,
+                "y": 160.05398110661272
+            }
+        },
+        "plains2.tmx#Overworld": {
+            "scaleInDock": 1
+        },
         "village1.tmx": {
             "scale": 1.8524999999999998,
             "selectedLayer": 2,
@@ -55,6 +83,20 @@
             }
         },
         "village1.tmx#Overworld": {
+            "scaleInDock": 1
+        },
+        "village2.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1.8524999999999998,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 160.32388663967612,
+                "y": 160.05398110661272
+            }
+        },
+        "village2.tmx#Overworld": {
             "scaleInDock": 1
         }
     },
@@ -69,6 +111,7 @@
     ],
     "project": "rpgMaps.tiled-project",
     "recentFiles": [
+        "castle1.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.tileSize": {

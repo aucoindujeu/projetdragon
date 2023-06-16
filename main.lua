@@ -21,21 +21,25 @@ love.graphics.setFont(font)
 
 love.window.setTitle("Projet Dragon")
 
-data = {x = 100, y = 100, speed = 100, newWorld = true,
+data = {x = 5 * 16 * 20, y = 5 * 16 * 20, speed = 80, newWorld = true,
         tileSet = {
-            {1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1},
+            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
+            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
+            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
+            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
+            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
+            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
+            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
+            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
+            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
+            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
         }}
 
 
 function love.load()
     love.math.setRandomSeed(os.time())
 
-    cam = camera(0, 0, 3)
+    cam = camera(0, 0, 1)
 
     world = love.physics.newWorld(0, 0, true)
 
@@ -94,41 +98,57 @@ function createWorld(newWorld)
     local loops = 1
     for y, v in ipairs(tileSet) do
         for x, w in ipairs(v) do
-            local choices = {["1"] = 2, ["2"] = 1, ["3"] = 1}
+            local choices = {["1"] = 2, ["2"] = 0.5, ["3"] = 0.3, ["4"] = 0.06}
 
             if data.newWorld then
-                if y == 1 and x > 1 then  
-                    if tileSet[y][x - 1] == "1" then
-                        choices["1"] = 2.5
-                    elseif tileSet[y][x - 1] == "2" then
-                        choices["2"] = 2
-                    elseif tileSet[y][x - 1] == "3" then
-                        choices["3"] = 2
+
+                -- 1: plains, 2: lake, 3: village, 4: shrine
+
+                local plainsChance = 2.5
+                local lakeChance = 0.25
+                local villageChance = 0.8
+                local shrineChance = 0
+
+                if x > 1 then  
+                    if tileSet[y][x - 1][1] == "1" then
+                        choices["1"] = plainsChance
+                    elseif tileSet[y][x - 1][1] == "2" then
+                        choices["2"] = lakeChance
+                    elseif tileSet[y][x - 1][1] == "3" then
+                        choices["3"] = villageChance
+                    elseif tileSet[y][x - 1][1] == "4" then
+                        choices["4"] = shrineChance
+                        choices["3"] = villageChance
                     end
 
                 elseif y > 1 and x > 1 then
-                    if tileSet[y - 1][x - 1] == "1" then
-                        choices["1"] = 2.5
-                    elseif tileSet[y - 1][x - 1] == "2" then
-                        choices["2"] = 2
-                    elseif tileSet[y - 1][x - 1] == "3" then
-                        choices["3"] = 2
+                    if tileSet[y - 1][x][1] == "1" or tileSet[y][x - 1][1] == "1" then
+                        choices["1"] = plainsChance
+                    elseif tileSet[y - 1][x][1] == "2" or tileSet[y][x - 1][1] == "2" then
+                        choices["2"] = lakeChance
+                    elseif tileSet[y - 1][x][1] == "3" or tileSet[y][x - 1][1] == "3" then
+                        choices["3"] = villageChance
+                    elseif tileSet[y - 1][x][1] == "4" then
+                        choices["4"] = shrineChance
+                        choices["3"] = villageChance
                     end
                 end
 
-                tileSet[y][x] = lume.weightedchoice(choices)
+                tileSet[y][x][1] = lume.weightedchoice(choices)
+                tileSet[y][x][2] = love.math.random(1, 2)
             end
 
             local ox = (x - 1) * 16 * 20
             local oy = (y - 1) * 16 * 20
             
-            local n = love.math.random(1, 2)
-            if tileSet[y][x] == "1" then
-                table.insert(tiles, sti("maps/plains1.lua", {}, ox, oy))
-            elseif tileSet[y][x] == "2" then
-                table.insert(tiles, sti("maps/lake" .. n .. ".lua", {}, ox, oy))
-            elseif tileSet[y][x] == "3" then
-                table.insert(tiles, sti("maps/village" .. n ..".lua", {}, ox, oy))
+            if tileSet[y][x][1] == "1" then
+                table.insert(tiles, sti("maps/plains" .. tileSet[y][x][2] .. ".lua", {}, ox, oy))
+            elseif tileSet[y][x][1] == "2" then
+                table.insert(tiles, sti("maps/lake" .. tileSet[y][x][2] .. ".lua", {}, ox, oy))
+            elseif tileSet[y][x][1] == "3" then
+                table.insert(tiles, sti("maps/village" .. tileSet[y][x][2] ..".lua", {}, ox, oy))
+            elseif tileSet[y][x][1] == "4" then
+                table.insert(tiles, sti("maps/shrine1.lua", {}, ox, oy))
             else
                 table.insert(tiles, sti("maps/plains1.lua", {}, ox, oy))
             end
