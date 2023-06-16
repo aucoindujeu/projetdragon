@@ -3,8 +3,9 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "shrine1.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
         "castle1.tmx": {
@@ -16,6 +17,26 @@
             }
         },
         "castle1.tmx#Overworld": {
+            "scaleInDock": 1
+        },
+        "forest1.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1.8524999999999998,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 160.32388663967612,
+                "y": 160.05398110661272
+            }
+        },
+        "forest1.tmx#Overworld": {
+            "scaleInDock": 1
+        },
+        "forest1.tmx#tree": {
+            "scaleInDock": 1
+        },
+        "forest1.tmx#treeSmall": {
             "scaleInDock": 1
         },
         "lake1.tmx": {
@@ -74,11 +95,28 @@
         "plains2.tmx#Overworld": {
             "scaleInDock": 1
         },
+        "shrine1.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1.8524999999999998,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 160.32388663967612,
+                "y": 160.05398110661272
+            }
+        },
+        "shrine1.tmx#Overworld": {
+            "scaleInDock": 1
+        },
         "village1.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
             "scale": 1.8524999999999998,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 160.32388663967612,
+                "x": 159.7840755735493,
                 "y": 160.05398110661272
             }
         },
@@ -90,7 +128,7 @@
                 3
             ],
             "scale": 1.8524999999999998,
-            "selectedLayer": 2,
+            "selectedLayer": 1,
             "viewCenter": {
                 "x": 160.32388663967612,
                 "y": 160.05398110661272
@@ -101,16 +139,32 @@
         }
     },
     "last.exportedFilePath": "/home/elliott/Documents/lua/projetDragon/maps",
-    "last.imagePath": "/home/elliott/Documents/lua/projetDragon/images/gfx",
+    "last.imagePath": "/home/elliott/Documents/lua/projetDragon/images",
     "map.lastUsedExportFilter": "Tous les Fichiers (*)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "map.width": 20,
     "openFiles": [
+        "plains1.tmx",
+        "lake1.tmx",
+        "village1.tmx",
+        "lake2.tmx",
+        "village2.tmx",
+        "plains2.tmx",
+        "shrine1.tmx",
+        "forest1.tmx"
     ],
     "project": "rpgMaps.tiled-project",
     "recentFiles": [
+        "plains1.tmx",
+        "lake1.tmx",
+        "village1.tmx",
+        "lake2.tmx",
+        "village2.tmx",
+        "plains2.tmx",
+        "forest1.tmx",
+        "shrine1.tmx",
         "castle1.tmx"
     ],
     "tileset.embedInMap": true,

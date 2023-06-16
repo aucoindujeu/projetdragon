@@ -1,7 +1,7 @@
 local game = {}
 
 function game:enter()
-    game.tiles = createWorld(data.newWorld)
+    createWorld(data.newWorld)
 end
 
 function game:update(dt)
@@ -19,18 +19,36 @@ function game:draw()
         -- end
         -- love.graphics.setColor(1, 1, 1)
 
-        for i, v in ipairs(game.tiles) do
-            if v.layers["Ground"] then
-                v:drawLayer(v.layers["Ground"])
-            end
-            if v.layers["Objects"] then
-                v:drawLayer(v.layers["Objects"])
-            end
-            if v.layers["Objects2"] then
-                v:drawLayer(v.layers["Objects2"])
+        for y,v in ipairs(data.tileSet) do
+            for x,w in ipairs(v) do
+                local ox = (x - 1) * 16 * 20
+                local oy = (y - 1) * 16 * 20
+
+                if data.tileSet[y][x][1] == "1" then
+                    maps["plains" .. data.tileSet[y][x][2]]:translate(ox, oy)
+                    drawChunk(maps["plains" .. data.tileSet[y][x][2]])
+                elseif data.tileSet[y][x][1] == "2" then
+                    maps["lake" .. data.tileSet[y][x][2]]:translate(ox, oy)
+                    drawChunk(maps["lake" .. data.tileSet[y][x][2]])
+                elseif data.tileSet[y][x][1] == "3" then
+                    maps["village" .. data.tileSet[y][x][2]]:translate(ox, oy)
+                    drawChunk(maps["village" .. data.tileSet[y][x][2]])
+                elseif data.tileSet[y][x][1] == "4" then
+                    maps["shrine1"]:translate(ox, oy)
+                    drawChunk(maps["shrine1"])
+                elseif data.tileSet[y][x][1] == "5" then
+                    maps["forest1"]:translate(ox, oy)
+                    drawChunk(maps["forest1"])
+                else
+                    maps["plains1"]:translate(ox, oy)
+                    drawChunk(maps["plains1 "])
+                end
             end
         end
+
+
         player:draw()
+
     cam:detach()
 end
 
