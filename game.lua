@@ -19,8 +19,14 @@ function game:draw()
         -- end
         -- love.graphics.setColor(1, 1, 1)
 
-        for y,v in ipairs(data.tileSet) do
-            for x,w in ipairs(v) do
+        local yTop = math.floor(lume.clamp((player.rect.body:getY() - 500) / (16 * 20), 1, #data.tileSet))
+        local yBottom = math.floor(lume.clamp((player.rect.body:getY() + 1000) / (16 * 20), 1, #data.tileSet))
+        local xLeft = math.floor(lume.clamp((player.rect.body:getX() - 500) / (16 * 20), 1, #data.tileSet))
+        local xRight = math.floor(lume.clamp((player.rect.body:getX() + 1000) / (16 * 20), 1, #data.tileSet))
+        -- print("yTop: " .. yTop)
+
+        for y=yTop, yBottom do
+            for x=xLeft, xRight do
                 local ox = (x - 1) * 16 * 20
                 local oy = (y - 1) * 16 * 20
 
@@ -48,8 +54,8 @@ function game:draw()
 
         player:draw()
 
-        for y,v in ipairs(data.tileSet) do
-            for x,w in ipairs(v) do
+        for y=yTop, yBottom do
+            for x=xLeft, xRight do
                 local ox = (x - 1) * 16 * 20
                 local oy = (y - 1) * 16 * 20
 

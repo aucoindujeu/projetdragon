@@ -21,7 +21,7 @@ love.graphics.setFont(font)
 
 love.window.setTitle("Projet Dragon")
 
-data = {x = 5 * 16 * 20, y = 5 * 16 * 20, speed = 80, newWorld = true, tileSet = {}}
+data = {x = 15 * 16 * 20, y = 15 * 16 * 20, speed = 80, newWorld = true, tileSet = {}}
 
 
 -- init world
