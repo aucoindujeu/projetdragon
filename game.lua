@@ -26,28 +26,54 @@ function game:draw()
 
                 if data.tileSet[y][x][1] == "1" then
                     maps["plains" .. data.tileSet[y][x][2]]:translate(ox, oy)
-                    drawChunk(maps["plains" .. data.tileSet[y][x][2]])
+                    drawChunk1(maps["plains" .. data.tileSet[y][x][2]])
                 elseif data.tileSet[y][x][1] == "2" then
                     maps["lake" .. data.tileSet[y][x][2]]:translate(ox, oy)
-                    drawChunk(maps["lake" .. data.tileSet[y][x][2]])
+                    drawChunk1(maps["lake" .. data.tileSet[y][x][2]])
                 elseif data.tileSet[y][x][1] == "3" then
                     maps["village" .. data.tileSet[y][x][2]]:translate(ox, oy)
-                    drawChunk(maps["village" .. data.tileSet[y][x][2]])
+                    drawChunk1(maps["village" .. data.tileSet[y][x][2]])
                 elseif data.tileSet[y][x][1] == "4" then
                     maps["shrine1"]:translate(ox, oy)
-                    drawChunk(maps["shrine1"])
+                    drawChunk1(maps["shrine1"])
                 elseif data.tileSet[y][x][1] == "5" then
                     maps["forest1"]:translate(ox, oy)
-                    drawChunk(maps["forest1"])
+                    drawChunk1(maps["forest1"])
                 else
                     maps["plains1"]:translate(ox, oy)
-                    drawChunk(maps["plains1 "])
+                    drawChunk1(maps["plains1 "])
                 end
             end
         end
 
-
         player:draw()
+
+        for y,v in ipairs(data.tileSet) do
+            for x,w in ipairs(v) do
+                local ox = (x - 1) * 16 * 20
+                local oy = (y - 1) * 16 * 20
+
+                if data.tileSet[y][x][1] == "1" then
+                    maps["plains" .. data.tileSet[y][x][2]]:translate(ox, oy)
+                    drawChunk2(maps["plains" .. data.tileSet[y][x][2]])
+                elseif data.tileSet[y][x][1] == "2" then
+                    maps["lake" .. data.tileSet[y][x][2]]:translate(ox, oy)
+                    drawChunk2(maps["lake" .. data.tileSet[y][x][2]])
+                elseif data.tileSet[y][x][1] == "3" then
+                    maps["village" .. data.tileSet[y][x][2]]:translate(ox, oy)
+                    drawChunk2(maps["village" .. data.tileSet[y][x][2]])
+                elseif data.tileSet[y][x][1] == "4" then
+                    maps["shrine1"]:translate(ox, oy)
+                    drawChunk2(maps["shrine1"])
+                elseif data.tileSet[y][x][1] == "5" then
+                    maps["forest1"]:translate(ox, oy)
+                    drawChunk2(maps["forest1"])
+                else
+                    maps["plains1"]:translate(ox, oy)
+                    drawChunk2(maps["plains1 "])
+                end
+            end
+        end
 
     cam:detach()
 end

@@ -21,19 +21,16 @@ love.graphics.setFont(font)
 
 love.window.setTitle("Projet Dragon")
 
-data = {x = 5 * 16 * 20, y = 5 * 16 * 20, speed = 80, newWorld = true,
-        tileSet = {
-            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
-            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
-            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
-            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
-            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
-            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
-            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
-            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
-            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
-            {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
-        }}
+data = {x = 5 * 16 * 20, y = 5 * 16 * 20, speed = 80, newWorld = true, tileSet = {}}
+
+
+-- init world
+for y=1, 30 do
+    data.tileSet[y] = {}
+    for x=1, 30 do
+        data.tileSet[y][x] = {1, 1}
+    end
+end
 
 
 function love.load()
@@ -225,13 +222,16 @@ end
 
 
 
-function drawChunk(v)
+function drawChunk1(v)
     if v.layers["Ground"] then
         v:drawLayer(v.layers["Ground"])
     end
     if v.layers["Objects"] then
         v:drawLayer(v.layers["Objects"])
     end
+end
+
+function drawChunk2(v)
     if v.layers["Objects2"] then
         v:drawLayer(v.layers["Objects2"])
     end
