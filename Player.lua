@@ -1,8 +1,10 @@
 Player = Object:extend()
 
-function Player:new(x, y, speed)
+function Player:new(x, y, speed, location)
     self.rect = createRect(x, y, 20, 30, "dynamic", 1)
     self.rect.body:setFixedRotation(true)
+    self.rect.fixture:setUserData("Player")
+    self.location = location
     self.speed = speed
 
     self.dir = "down"
@@ -25,6 +27,12 @@ function Player:new(x, y, speed)
     end
 
     self.walking = false
+
+    self.maxHealth = 6
+    self.health = self.maxHealth
+
+    self.heartFull = love.graphics.newImage("images/heartFull.png")
+    self.heartEmpty = love.graphics.newImage("images/heartEmpty.png")
 end
 
 function Player:update(dt)
@@ -51,6 +59,10 @@ function Player:update(dt)
     end
 
     self.rect.body:setLinearVelocity(vx, vy)
+
+    if self.health <= 0 then
+        love.load()
+    end
 end
 
 function Player:draw()
@@ -126,4 +138,15 @@ function Player:down()
     vy = self.speed
     self.walking = true
     self.dir = "down"
+end
+
+function Player:drawHearts(x, y)
+    local size = 3
+    for i=1, self.maxHealth do
+        if self.health >= i then
+            love.graphics.draw(self.heartFull, x + (i - 1) * self.heartFull:getWidth() * size, y, 0, size, size)
+        else
+            love.graphics.draw(self.heartEmpty, x + (i - 1) * self.heartFull:getWidth() * size, y, 0, size, size)
+        end
+    end
 end

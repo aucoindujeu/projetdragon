@@ -1,13 +1,16 @@
 local game = {}
 
 function game:enter()
-    createWorld(data.newWorld)
+    createWorld()
 end
 
 function game:update(dt)
     player:update(dt)
     cam:lookAt(player.rect.body:getX() + player.rect.width / 2, player.rect.body:getY() + player.rect.height / 2)
 end
+
+local once = false
+local once2 = true
 
 function game:draw()
     cam:attach()
@@ -19,69 +22,98 @@ function game:draw()
         -- end
         -- love.graphics.setColor(1, 1, 1)
 
+
         local yTop = math.floor(lume.clamp((player.rect.body:getY() - 500) / (16 * 20), 1, #data.tileSet))
         local yBottom = math.floor(lume.clamp((player.rect.body:getY() + 1000) / (16 * 20), 1, #data.tileSet))
         local xLeft = math.floor(lume.clamp((player.rect.body:getX() - 500) / (16 * 20), 1, #data.tileSet))
         local xRight = math.floor(lume.clamp((player.rect.body:getX() + 1000) / (16 * 20), 1, #data.tileSet))
         -- print("yTop: " .. yTop)
 
-        for y=yTop, yBottom do
-            for x=xLeft, xRight do
-                local ox = (x - 1) * 16 * 20
-                local oy = (y - 1) * 16 * 20
+        if player.location == "Overworld" then
 
-                if data.tileSet[y][x][1] == "1" then
-                    maps["plains" .. data.tileSet[y][x][2]]:translate(ox, oy)
-                    drawChunk1(maps["plains" .. data.tileSet[y][x][2]])
-                elseif data.tileSet[y][x][1] == "2" then
-                    maps["lake" .. data.tileSet[y][x][2]]:translate(ox, oy)
-                    drawChunk1(maps["lake" .. data.tileSet[y][x][2]])
-                elseif data.tileSet[y][x][1] == "3" then
-                    maps["village" .. data.tileSet[y][x][2]]:translate(ox, oy)
-                    drawChunk1(maps["village" .. data.tileSet[y][x][2]])
-                elseif data.tileSet[y][x][1] == "4" then
-                    maps["shrine1"]:translate(ox, oy)
-                    drawChunk1(maps["shrine1"])
-                elseif data.tileSet[y][x][1] == "5" then
-                    maps["forest1"]:translate(ox, oy)
-                    drawChunk1(maps["forest1"])
-                else
-                    maps["plains1"]:translate(ox, oy)
-                    drawChunk1(maps["plains1 "])
+            once = false
+
+            if not once2 then
+                once2 = true
+                deleteWorld()
+                createWorld()
+            end
+
+            for y=yTop, yBottom do
+                for x=xLeft, xRight do
+                    local ox = (x - 1) * 16 * 20
+                    local oy = (y - 1) * 16 * 20
+
+                    if data.tileSet[y][x][1] == "1" then
+                        maps["plains" .. data.tileSet[y][x][2]]:translate(ox, oy)
+                        drawChunk1(maps["plains" .. data.tileSet[y][x][2]])
+                    elseif data.tileSet[y][x][1] == "2" then
+                        maps["lake" .. data.tileSet[y][x][2]]:translate(ox, oy)
+                        drawChunk1(maps["lake" .. data.tileSet[y][x][2]])
+                    elseif data.tileSet[y][x][1] == "3" then
+                        maps["village" .. data.tileSet[y][x][2]]:translate(ox, oy)
+                        drawChunk1(maps["village" .. data.tileSet[y][x][2]])
+                    elseif data.tileSet[y][x][1] == "4" then
+                        maps["shrine1"]:translate(ox, oy)
+                        drawChunk1(maps["shrine1"])
+                    elseif data.tileSet[y][x][1] == "5" then
+                        maps["forest1"]:translate(ox, oy)
+                        drawChunk1(maps["forest1"])
+                    else
+                        maps["plains1"]:translate(ox, oy)
+                        drawChunk1(maps["plains1 "])
+                    end
                 end
             end
-        end
 
-        player:draw()
+            player:draw()
 
-        for y=yTop, yBottom do
-            for x=xLeft, xRight do
-                local ox = (x - 1) * 16 * 20
-                local oy = (y - 1) * 16 * 20
+            for y=yTop, yBottom do
+                for x=xLeft, xRight do
+                    local ox = (x - 1) * 16 * 20
+                    local oy = (y - 1) * 16 * 20
 
-                if data.tileSet[y][x][1] == "1" then
-                    maps["plains" .. data.tileSet[y][x][2]]:translate(ox, oy)
-                    drawChunk2(maps["plains" .. data.tileSet[y][x][2]])
-                elseif data.tileSet[y][x][1] == "2" then
-                    maps["lake" .. data.tileSet[y][x][2]]:translate(ox, oy)
-                    drawChunk2(maps["lake" .. data.tileSet[y][x][2]])
-                elseif data.tileSet[y][x][1] == "3" then
-                    maps["village" .. data.tileSet[y][x][2]]:translate(ox, oy)
-                    drawChunk2(maps["village" .. data.tileSet[y][x][2]])
-                elseif data.tileSet[y][x][1] == "4" then
-                    maps["shrine1"]:translate(ox, oy)
-                    drawChunk2(maps["shrine1"])
-                elseif data.tileSet[y][x][1] == "5" then
-                    maps["forest1"]:translate(ox, oy)
-                    drawChunk2(maps["forest1"])
-                else
-                    maps["plains1"]:translate(ox, oy)
-                    drawChunk2(maps["plains1 "])
+                    if data.tileSet[y][x][1] == "1" then
+                        maps["plains" .. data.tileSet[y][x][2]]:translate(ox, oy)
+                        drawChunk2(maps["plains" .. data.tileSet[y][x][2]])
+                    elseif data.tileSet[y][x][1] == "2" then
+                        maps["lake" .. data.tileSet[y][x][2]]:translate(ox, oy)
+                        drawChunk2(maps["lake" .. data.tileSet[y][x][2]])
+                    elseif data.tileSet[y][x][1] == "3" then
+                        maps["village" .. data.tileSet[y][x][2]]:translate(ox, oy)
+                        drawChunk2(maps["village" .. data.tileSet[y][x][2]])
+                    elseif data.tileSet[y][x][1] == "4" then
+                        maps["shrine1"]:translate(ox, oy)
+                        drawChunk2(maps["shrine1"])
+                    elseif data.tileSet[y][x][1] == "5" then
+                        maps["forest1"]:translate(ox, oy)
+                        drawChunk2(maps["forest1"])
+                    else
+                        maps["plains1"]:translate(ox, oy)
+                        drawChunk2(maps["plains1 "])
+                    end
                 end
             end
+
+        elseif player.location == "InteriorHouse" then
+            once2 = false
+
+            if not once then
+                deleteWorld()
+                createChunk(maps["house1"], player.rect.body:getX() - 10 * 16, player.rect.body:getY() - 12 * 16)
+                once = true
+                maps["house1"]:translate(player.rect.body:getX() - 10 * 16, player.rect.body:getY() - 12 * 16)
+            end
+            drawChunk1(maps["house1"])
+
+            player:draw()
+
+            drawChunk2(maps["house1"])
         end
 
     cam:detach()
+
+    player:drawHearts(0, 0)
 end
 
 function game:keypressed(key)

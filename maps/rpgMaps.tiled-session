@@ -7,7 +7,11 @@
     "expandedProjectPaths": [
         "."
     ],
+    "file.lastUsedOpenFilter": "Tous les Fichiers (*)",
     "fileStates": {
+        "#Inner": {
+            "scaleInDock": 1
+        },
         "castle1.tmx": {
             "scale": 1.8524999999999998,
             "selectedLayer": 1,
@@ -39,6 +43,20 @@
         "forest1.tmx#treeSmall": {
             "scaleInDock": 1
         },
+        "house1.tmx": {
+            "expandedObjectLayers": [
+                4
+            ],
+            "scale": 1.8524999999999998,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 159.7840755735493,
+                "y": 160.05398110661272
+            }
+        },
+        "house1.tmx#Inner": {
+            "scaleInDock": 1
+        },
         "lake1.tmx": {
             "expandedObjectLayers": [
                 3
@@ -47,7 +65,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 159.7840755735493,
-                "y": 160.05398110661272
+                "y": 159.78407557354927
             }
         },
         "lake1.tmx#Overworld": {
@@ -61,10 +79,24 @@
             "selectedLayer": 1,
             "viewCenter": {
                 "x": 159.7840755735493,
-                "y": 160.05398110661272
+                "y": 159.78407557354927
             }
         },
         "lake2.tmx#Overworld": {
+            "scaleInDock": 1
+        },
+        "lake3.tmx": {
+            "expandedObjectLayers": [
+                4
+            ],
+            "scale": 1.8524999999999998,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 160.32388663967612,
+                "y": 160.05398110661272
+            }
+        },
+        "lake3.tmx#Overworld": {
             "scaleInDock": 1
         },
         "plains1.tmx": {
@@ -74,8 +106,8 @@
             "scale": 1.8524999999999998,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 159.7840755735493,
-                "y": 160.05398110661272
+                "x": 159.78407557354927,
+                "y": 159.24426450742243
             }
         },
         "plains1.tmx#Overworld": {
@@ -95,6 +127,17 @@
         "plains2.tmx#Overworld": {
             "scaleInDock": 1
         },
+        "plains3.tmx": {
+            "scale": 1.8524999999999998,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 159.24426450742246,
+                "y": 160.05398110661272
+            }
+        },
+        "plains3.tmx#Overworld": {
+            "scaleInDock": 1
+        },
         "shrine1.tmx": {
             "expandedObjectLayers": [
                 3
@@ -102,7 +145,7 @@
             "scale": 1.8524999999999998,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 159.7840755735493,
+                "x": 159.24426450742246,
                 "y": 160.05398110661272
             }
         },
@@ -128,18 +171,32 @@
                 3
             ],
             "scale": 1.8524999999999998,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 159.7840755735493,
+                "x": 159.24426450742246,
                 "y": 160.05398110661272
             }
         },
         "village2.tmx#Overworld": {
             "scaleInDock": 1
+        },
+        "village3.tmx": {
+            "expandedObjectLayers": [
+                4
+            ],
+            "scale": 1.8524999999999998,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 160.32388663967612,
+                "y": 160.05398110661272
+            }
+        },
+        "village3.tmx#Overworld": {
+            "scaleInDock": 1
         }
     },
     "last.exportedFilePath": "/home/elliott/Documents/lua/projetDragon/maps",
-    "last.imagePath": "/home/elliott/Documents/lua/projetDragon/images",
+    "last.imagePath": "/home/elliott/Documents/lua/projetDragon/images/gfx",
     "map.lastUsedExportFilter": "Tous les Fichiers (*)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
