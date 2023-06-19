@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "shrine1.tmx",
+    "activeFile": "village3.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -210,7 +210,11 @@
         "village2.tmx",
         "plains2.tmx",
         "shrine1.tmx",
-        "forest1.tmx"
+        "forest1.tmx",
+        "lake3.tmx",
+        "plains3.tmx",
+        "village3.tmx",
+        "house1.tmx"
     ],
     "project": "rpgMaps.tiled-project",
     "recentFiles": [
@@ -220,9 +224,12 @@
         "lake2.tmx",
         "village2.tmx",
         "plains2.tmx",
-        "forest1.tmx",
         "shrine1.tmx",
-        "castle1.tmx"
+        "forest1.tmx",
+        "lake3.tmx",
+        "plains3.tmx",
+        "house1.tmx",
+        "village3.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.tileSize": {
