@@ -258,7 +258,7 @@ return {
         },
         {
           id = 7,
-          name = "DoorInterior",
+          name = "DoorInteriorHouse",
           type = "",
           shape = "rectangle",
           x = 80,

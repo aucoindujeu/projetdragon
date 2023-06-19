@@ -231,7 +231,7 @@ return {
         },
         {
           id = 8,
-          name = "DoorInterior",
+          name = "DoorInteriorHouse",
           type = "",
           shape = "rectangle",
           x = 80,
@@ -270,7 +270,7 @@ return {
         },
         {
           id = 11,
-          name = "DoorInterior",
+          name = "DoorInteriorHouse",
           type = "",
           shape = "rectangle",
           x = 240,

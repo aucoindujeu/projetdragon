@@ -67,8 +67,8 @@
   <object id="14" x="96" y="96" width="32" height="16"/>
   <object id="15" x="176" y="96" width="32" height="16"/>
   <object id="16" x="256" y="96" width="16" height="16"/>
-  <object id="17" name="DoorInterior" x="64" y="80" width="16" height="16"/>
-  <object id="18" name="DoorInterior" x="144" y="80" width="16" height="16"/>
-  <object id="19" name="DoorInterior" x="224" y="80" width="16" height="16"/>
+  <object id="17" name="DoorInteriorHouse" x="64" y="80" width="16" height="16"/>
+  <object id="18" name="DoorInteriorHouse" x="144" y="80" width="16" height="16"/>
+  <object id="19" name="DoorInteriorHouse" x="224" y="80" width="16" height="16"/>
  </objectgroup>
 </map>

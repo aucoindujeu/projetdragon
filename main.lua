@@ -10,6 +10,7 @@ require "Rect"
 require "Door"
 menu = require "menu"
 game = require "game"
+gameInteriorHouse = require "gameInteriorHouse"
 controlsMenu = require "controlsMenu"
 
 
@@ -70,9 +71,17 @@ function love.load()
         ["forest1"] = sti("maps/forest1.lua"),
         ["house1"] = sti("maps/house1.lua"),
     }
+
+    delayedCallbacks = {}
 end
 
 function love.update(dt)
+    for i,v in ipairs(delayedCallbacks) do
+        if type(v) == "function" then
+            v(delayedCallbacks.switch)
+        end
+    end
+    lume.clear(delayedCallbacks)
     world:update(dt)
 end
 
@@ -161,43 +170,15 @@ function createWorld()
             -- print("ox: " .. ox .. ", oy: " .. oy)
             
             if tileSet[y][x][1] == "1" then
-                if maps["plains" .. tileSet[y][x][2]].layers["Walls"] then
-                    for i, obj in pairs(maps["plains" .. tileSet[y][x][2]].layers["Walls"].objects) do
-                        local wall = createRect(obj.x + obj.width / 2 + ox, obj.y + obj.height / 2 + oy, obj.width, obj.height, "static", 1)
-                        table.insert(walls, wall)
-                    end
-                end
+                createChunk(maps["plains" .. tileSet[y][x][2]], ox, oy)
             elseif tileSet[y][x][1] == "2" then
-                if maps["lake" .. tileSet[y][x][2]].layers["Walls"] then
-                    for i, obj in pairs(maps["lake" .. tileSet[y][x][2]].layers["Walls"].objects) do
-                        local wall = createRect(obj.x + obj.width / 2 + ox, obj.y + obj.height / 2 + oy, obj.width, obj.height, "static", 1)
-                        table.insert(walls, wall)
-                    end
-                end
+                createChunk(maps["lake" .. tileSet[y][x][2]], ox, oy)
             elseif tileSet[y][x][1] == "3" then
-                if maps["village" .. tileSet[y][x][2]].layers["Walls"] then
-                    for i, obj in pairs(maps["village" .. tileSet[y][x][2]].layers["Walls"].objects) do
-                        local wall = createRect(obj.x + obj.width / 2 + ox, obj.y + obj.height / 2 + oy, obj.width, obj.height, "static", 1)
-                        if obj.name == "DoorInterior" then
-                            wall.fixture:setUserData("DoorInterior")
-                        end
-                        table.insert(walls, wall)
-                    end
-                end
+                createChunk(maps["village" .. tileSet[y][x][2]], ox, oy)
             elseif tileSet[y][x][1] == "4" then
-                if maps["shrine1"].layers["Walls"] then
-                    for i, obj in pairs(maps["shrine1"].layers["Walls"].objects) do
-                        local wall = createRect(obj.x + obj.width / 2 + ox, obj.y + obj.height / 2 + oy, obj.width, obj.height, "static", 1)
-                        table.insert(walls, wall)
-                    end
-                end
+                createChunk(maps["shrine1"], ox, oy)
             elseif tileSet[y][x][1] == "5" then
-                if maps["forest1"].layers["Walls"] then
-                    for i, obj in pairs(maps["forest1"].layers["Walls"].objects) do
-                        local wall = createRect(obj.x + obj.width / 2 + ox, obj.y + obj.height / 2 + oy, obj.width, obj.height, "static", 1)
-                        table.insert(walls, wall)
-                    end
-                end
+                createChunk(maps["forest1"], ox, oy)
             end
             loops = loops + 1
         end
@@ -212,6 +193,8 @@ function createChunk(chunk, ox, oy)
             local wall = createRect(obj.x + obj.width / 2 + ox, obj.y + obj.height / 2 + oy, obj.width, obj.height, "static", 1)
             if obj.name == "DoorExterior" then
                 wall.fixture:setUserData("DoorExterior")
+            elseif obj.name == "DoorInteriorHouse" then
+                wall.fixture:setUserData("DoorInteriorHouse")
             end
             table.insert(walls, wall)
         end
@@ -259,10 +242,12 @@ function drawChunk2(v)
 end
 
 function beginContact(a, b, coll)
-    if (a:getUserData() == "Player" or b:getUserData() == "Player") and (a:getUserData() == "DoorInterior" or b:getUserData() == "DoorInterior") then
-        player.location = "InteriorHouse"
+    if (a:getUserData() == "Player" or b:getUserData() == "Player") and (a:getUserData() == "DoorInteriorHouse" or b:getUserData() == "DoorInteriorHouse") then
+        table.insert(delayedCallbacks, gamestate.switch)
+        delayedCallbacks.switch = gameInteriorHouse
     end
     if (a:getUserData() == "Player" or b:getUserData() == "Player") and (a:getUserData() == "DoorExterior" or b:getUserData() == "DoorExterior") then
-        player.location = "Overworld"
+        table.insert(delayedCallbacks, gamestate.switch)
+        delayedCallbacks.switch = game
     end
 end
