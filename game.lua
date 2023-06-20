@@ -8,6 +8,9 @@ end
 
 function game:update(dt)
     player:update(dt)
+    for i, enemy in ipairs(enemies) do
+        enemy:update(dt)
+    end
     cam:lookAt(player.rect.body:getX() + player.rect.width / 2, player.rect.body:getY() + player.rect.height / 2)
 end
 
@@ -56,6 +59,13 @@ function game:draw()
         end
 
         player:draw()
+
+        for i, enemy in ipairs(enemies) do
+            enemy:draw()
+            if enemy.dead then
+                table.remove(enemies, i)
+            end
+        end
 
         for y=yTop, yBottom do
             for x=xLeft, xRight do

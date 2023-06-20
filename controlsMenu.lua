@@ -1,7 +1,7 @@
 local controlsMenu = {}
 
 function controlsMenu:draw()
-    love.graphics.print("move: arrow keys\nreturn: escape", font, 100, 100)
+    love.graphics.print("move: arrow keys\nreturn: escape\nattack: space", font, 100, 100)
 end
 
 function controlsMenu:keypressed(key)

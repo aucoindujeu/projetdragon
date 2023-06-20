@@ -5,6 +5,7 @@ sti = require "libraries.sti2"
 camera = require "libraries.camera"
 
 require "Player"
+require "Enemy"
 require "Button"
 require "Rect"
 require "Door"
@@ -46,6 +47,8 @@ function love.load()
     gamestate.switch(menu)
 
     walls = {}
+    enemies = {}
+    enemiesHealth = {}
 
     savedata = "savedata.txt"
 
@@ -199,6 +202,12 @@ function createChunk(chunk, ox, oy)
             table.insert(walls, wall)
         end
     end
+    if chunk.layers["Enemies"] then
+        for i, obj in pairs(chunk.layers["Enemies"].objects) do
+            local enemy = Enemy(obj.x + obj.width / 2 + ox, obj.y + obj.height / 2 + oy)
+            table.insert(enemies, enemy)
+        end
+    end
 end
 
 function deleteWorld()
@@ -249,5 +258,15 @@ function beginContact(a, b, coll)
     if (a:getUserData() == "Player" or b:getUserData() == "Player") and (a:getUserData() == "DoorExterior" or b:getUserData() == "DoorExterior") then
         table.insert(delayedCallbacks, gamestate.switch)
         delayedCallbacks.switch = game
+    end
+    if (a:getUserData() == "Player" or b:getUserData() == "Player") and (a:getUserData() == "Enemy" or b:getUserData() == "Enemy") then
+        player.health = player.health - 1
+    end
+    if (a:getUserData() == "Sword" or b:getUserData() == "Sword") and (a:getUserData() == "Enemy" or b:getUserData() == "Enemy") then
+        if a:getUserData() == "Enemy" then
+            enemiesHealth[a] = enemiesHealth[a] - 1
+        else
+            enemiesHealth[b] = enemiesHealth[b] - 1
+        end
     end
 end
