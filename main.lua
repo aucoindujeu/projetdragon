@@ -9,6 +9,7 @@ require "Enemy"
 require "Button"
 require "Rect"
 require "Door"
+require "Heart"
 menu = require "menu"
 game = require "game"
 gameInteriorHouse = require "gameInteriorHouse"
@@ -49,6 +50,7 @@ function love.load()
     walls = {}
     enemies = {}
     enemiesHealth = {}
+    hearts = {}
 
     savedata = "savedata.txt"
 
@@ -85,6 +87,7 @@ function love.update(dt)
         end
     end
     lume.clear(delayedCallbacks)
+
     world:update(dt)
 end
 
@@ -208,6 +211,12 @@ function createChunk(chunk, ox, oy)
             table.insert(enemies, enemy)
         end
     end
+    if chunk.layers["Hearts"] then
+        for i, obj in pairs(chunk.layers["Hearts"].objects) do
+            local heart = Heart(obj.x + obj.width / 2 + ox, obj.y + obj.height / 2 + oy)
+            table.insert(hearts, heart)
+        end
+    end
 end
 
 function deleteWorld()
@@ -215,6 +224,17 @@ function deleteWorld()
         v.fixture:destroy()
     end
     lume.clear(walls)
+
+    for i,v in ipairs(enemies) do
+        v.rect.fixture:destroy()
+    end
+    lume.clear(enemies)
+    lume.clear(enemiesHealth)
+
+    for i,v in ipairs(hearts) do
+        v.rect.fixture:destroy()
+    end
+    lume.clear(hearts)
 end
 
 
@@ -255,13 +275,26 @@ function beginContact(a, b, coll)
         table.insert(delayedCallbacks, gamestate.switch)
         delayedCallbacks.switch = gameInteriorHouse
     end
+
     if (a:getUserData() == "Player" or b:getUserData() == "Player") and (a:getUserData() == "DoorExterior" or b:getUserData() == "DoorExterior") then
         table.insert(delayedCallbacks, gamestate.switch)
         delayedCallbacks.switch = game
     end
+
     if (a:getUserData() == "Player" or b:getUserData() == "Player") and (a:getUserData() == "Enemy" or b:getUserData() == "Enemy") then
         player.health = player.health - 1
     end
+
+    if (a:getUserData() == "Player" or b:getUserData() == "Player") and (a:getUserData() == "Heart" or b:getUserData() == "Heart") then
+        player:heal(1)
+        coll:setEnabled(false)
+        if a:getUserData() == "Heart" then
+            a:destroy()
+        else
+            b:destroy()
+        end
+    end
+
     if (a:getUserData() == "Sword" or b:getUserData() == "Sword") and (a:getUserData() == "Enemy" or b:getUserData() == "Enemy") then
         if a:getUserData() == "Enemy" then
             enemiesHealth[a] = enemiesHealth[a] - 1

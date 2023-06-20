@@ -10,6 +10,12 @@ end
 function gameInteriorHouse:update(dt)
     player:update(dt)
     cam:lookAt(player.rect.body:getX() + player.rect.width / 2, player.rect.body:getY() + player.rect.height / 2)
+    for i, heart in ipairs(hearts) do
+        heart:update(dt)
+        if heart.rect.fixture:isDestroyed() then
+            table.remove(hearts, i)
+        end
+    end
 end
 
 function gameInteriorHouse:draw()
@@ -24,6 +30,10 @@ function gameInteriorHouse:draw()
         drawChunk1(maps["house1"])
 
         player:draw()
+
+        for i, heart in ipairs(hearts) do
+            heart:draw(dt)
+        end
 
         drawChunk2(maps["house1"])
 

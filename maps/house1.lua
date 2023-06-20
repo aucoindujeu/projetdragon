@@ -9,8 +9,8 @@ return {
   height = 20,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 5,
-  nextobjectid = 18,
+  nextlayerid = 6,
+  nextobjectid = 21,
   properties = {},
   tilesets = {
     {
@@ -343,6 +343,35 @@ return {
           y = 80,
           width = 128,
           height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 5,
+      name = "Hearts",
+      class = "",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {
+        {
+          id = 20,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 128,
+          y = 160,
+          width = 0,
+          height = 0,
           rotation = 0,
           visible = true,
           properties = {}

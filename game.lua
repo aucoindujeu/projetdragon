@@ -10,6 +10,17 @@ function game:update(dt)
     player:update(dt)
     for i, enemy in ipairs(enemies) do
         enemy:update(dt)
+        if enemy.dead then
+            enemy.rect.fixture:destroy()
+            table.remove(enemies, i)
+        end
+    end
+
+    for i, heart in ipairs(hearts) do
+        heart:update(dt)
+        if heart.rect.fixture:isDestroyed() then
+            table.remove(heart, i)
+        end
     end
     cam:lookAt(player.rect.body:getX() + player.rect.width / 2, player.rect.body:getY() + player.rect.height / 2)
 end
@@ -62,9 +73,10 @@ function game:draw()
 
         for i, enemy in ipairs(enemies) do
             enemy:draw()
-            if enemy.dead then
-                table.remove(enemies, i)
-            end
+        end
+
+        for i, heart in ipairs(hearts) do
+            heart:draw(dt)
         end
 
         for y=yTop, yBottom do

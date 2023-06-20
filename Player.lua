@@ -231,3 +231,11 @@ function Player:drawHearts(x, y)
         end
     end
 end
+
+function Player:heal(amount)
+    for i=1,amount do
+        if self.health < self.maxHealth then
+            self.health = self.health + 1
+        end
+    end
+end
