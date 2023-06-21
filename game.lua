@@ -19,7 +19,7 @@ function game:update(dt)
     for i, heart in ipairs(hearts) do
         heart:update(dt)
         if heart.rect.fixture:isDestroyed() then
-            table.remove(heart, i)
+            table.remove(hearts, i)
         end
     end
     cam:lookAt(player.rect.body:getX() + player.rect.width / 2, player.rect.body:getY() + player.rect.height / 2)
@@ -76,7 +76,7 @@ function game:draw()
         end
 
         for i, heart in ipairs(hearts) do
-            heart:draw(dt)
+            heart:draw()
         end
 
         for y=yTop, yBottom do

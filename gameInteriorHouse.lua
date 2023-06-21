@@ -32,7 +32,7 @@ function gameInteriorHouse:draw()
         player:draw()
 
         for i, heart in ipairs(hearts) do
-            heart:draw(dt)
+            heart:draw()
         end
 
         drawChunk2(maps["house1"])

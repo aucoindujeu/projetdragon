@@ -126,7 +126,7 @@ function createWorld()
     local loops = 1
     for y, v in ipairs(tileSet) do
         for x, w in ipairs(v) do
-            local choices = {["1"] = 2, ["2"] = 0.5, ["3"] = 1, ["4"] = 0.1, ["5"] = 1}
+            local choices = {["1"] = 2, ["2"] = 0.5, ["3"] = 0.3, ["4"] = 0.1, ["5"] = 1}
 
             if data.newWorld then
 
@@ -213,7 +213,11 @@ function createChunk(chunk, ox, oy)
     end
     if chunk.layers["Hearts"] then
         for i, obj in pairs(chunk.layers["Hearts"].objects) do
-            local heart = Heart(obj.x + obj.width / 2 + ox, obj.y + obj.height / 2 + oy)
+            if obj.name == "Container" then
+                heart = Heart(obj.x + obj.width / 2 + ox, obj.y + obj.height / 2 + oy, true)
+            else
+                heart = Heart(obj.x + obj.width / 2 + ox, obj.y + obj.height / 2 + oy, false)
+            end
             table.insert(hearts, heart)
         end
     end
@@ -289,6 +293,16 @@ function beginContact(a, b, coll)
         player:heal(1)
         coll:setEnabled(false)
         if a:getUserData() == "Heart" then
+            a:destroy()
+        else
+            b:destroy()
+        end
+    end
+
+    if (a:getUserData() == "Player" or b:getUserData() == "Player") and (a:getUserData() == "HeartContainer" or b:getUserData() == "HeartContainer") then
+        player:gainHeart(1)
+        coll:setEnabled(false)
+        if a:getUserData() == "HeartContainer" then
             a:destroy()
         else
             b:destroy()

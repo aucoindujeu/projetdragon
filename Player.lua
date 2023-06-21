@@ -239,3 +239,8 @@ function Player:heal(amount)
         end
     end
 end
+
+function Player:gainHeart(amount)
+    self.maxHealth = self.maxHealth + amount
+    self.health = self.maxHealth
+end
