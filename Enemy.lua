@@ -27,6 +27,7 @@ function Enemy:new(x, y)
     -- self.rect.fixture.parent = self
 
     self.health = 3
+    self.xp = 10
 
     enemiesHealth[self.rect.fixture] = self.health
 

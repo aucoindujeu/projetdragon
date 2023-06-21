@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "village3.tmx",
+    "activeFile": "shrine1.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -30,7 +30,7 @@
             "scale": 1.8524999999999998,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 159.7840755735493,
+                "x": 159.24426450742246,
                 "y": 160.05398110661272
             }
         },
@@ -45,8 +45,8 @@
         },
         "house1.tmx": {
             "expandedObjectLayers": [
-                4,
-                5
+                5,
+                4
             ],
             "scale": 1.8524999999999998,
             "selectedLayer": 4,
@@ -79,8 +79,8 @@
             "scale": 1.8524999999999998,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 159.7840755735493,
-                "y": 159.78407557354927
+                "x": 159.24426450742246,
+                "y": 159.51417004048585
             }
         },
         "lake2.tmx#Overworld": {
@@ -93,7 +93,7 @@
             "scale": 1.8524999999999998,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 159.7840755735493,
+                "x": 159.24426450742246,
                 "y": 160.05398110661272
             }
         },
@@ -121,8 +121,8 @@
             "scale": 1.8524999999999998,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 159.7840755735493,
-                "y": 159.78407557354927
+                "x": 159.24426450742246,
+                "y": 159.51417004048585
             }
         },
         "plains2.tmx#Overworld": {
@@ -161,7 +161,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 159.7840755735493,
-                "y": 159.78407557354927
+                "y": 159.51417004048585
             }
         },
         "village1.tmx#Overworld": {
@@ -174,8 +174,8 @@
             "scale": 1.8524999999999998,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 159.7840755735493,
-                "y": 159.78407557354927
+                "x": 159.24426450742246,
+                "y": 159.51417004048585
             }
         },
         "village2.tmx#Overworld": {
@@ -183,8 +183,8 @@
         },
         "village3.tmx": {
             "expandedObjectLayers": [
-                4,
-                5
+                5,
+                4
             ],
             "scale": 1.8524999999999998,
             "selectedLayer": 4,
@@ -226,12 +226,12 @@
         "lake2.tmx",
         "village2.tmx",
         "plains2.tmx",
-        "shrine1.tmx",
-        "forest1.tmx",
-        "lake3.tmx",
-        "plains3.tmx",
         "house1.tmx",
-        "village3.tmx"
+        "village3.tmx",
+        "plains3.tmx",
+        "lake3.tmx",
+        "forest1.tmx",
+        "shrine1.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.tileSize": {

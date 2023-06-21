@@ -8,17 +8,18 @@ end
 
 function game:update(dt)
     player:update(dt)
-    for i, enemy in ipairs(enemies) do
-        enemy:update(dt)
-        if enemy.dead then
-            enemy.rect.fixture:destroy()
+    for i=#enemies, 1, -1 do
+        enemies[i]:update(dt)
+        if enemies[i].dead then
+            player.xp = player.xp + enemies[i].xp
+            enemies[i].rect.fixture:destroy()
             table.remove(enemies, i)
         end
     end
 
-    for i, heart in ipairs(hearts) do
-        heart:update(dt)
-        if heart.rect.fixture:isDestroyed() then
+    for i=#hearts, 1, -1 do
+        hearts[i]:update(dt)
+        if hearts[i].rect.fixture:isDestroyed() then
             table.remove(hearts, i)
         end
     end

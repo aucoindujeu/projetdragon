@@ -1,6 +1,6 @@
 Player = Object:extend()
 
-function Player:new(x, y, speed, location)
+function Player:new(x, y, speed, location, maxHealth, xp)
     self.rect = createRect(x, y, 20, 30, "dynamic", 1)
     self.rect.body:setFixedRotation(true)
     self.rect.fixture:setUserData("Player")
@@ -47,7 +47,7 @@ function Player:new(x, y, speed, location)
     self.attacking = false 
     self.walking = false
 
-    self.maxHealth = 6
+    self.maxHealth = maxHealth
     self.health = self.maxHealth
 
     self.heartFull = love.graphics.newImage("images/heartFull.png")
@@ -57,6 +57,8 @@ function Player:new(x, y, speed, location)
     self.attackRect = createRect(-1000, -1000, self.swordLength, self.swordLength, "static", 1)
     self.attackRect.fixture:setUserData("Sword")
     self.attackRect.fixture:setCategory(2)
+
+    self.xp = xp
 end
 
 function Player:update(dt)
@@ -230,6 +232,8 @@ function Player:drawHearts(x, y)
             love.graphics.draw(self.heartEmpty, x + (i - 1) * self.heartFull:getWidth() * size, y, 0, size, size)
         end
     end
+
+    love.graphics.print("xp: " .. self.xp, font, 0, 100)
 end
 
 function Player:heal(amount)

@@ -24,14 +24,14 @@ love.graphics.setFont(font)
 
 love.window.setTitle("Projet Dragon")
 
-data = {x = 20 * 16 * 20, y = 20 * 16 * 20, speed = 80, newWorld = true, tileSet = {}, location = "Overworld"}
+data = {x = 20 * 16 * 20, y = 20 * 16 * 20, speed = 80, newWorld = true, tileSet = {}, location = "Overworld", maxHealth = 6, xp = 0}
 
 
 -- init world
 for y=1, 40 do
     data.tileSet[y] = {}
     for x=1, 40 do
-        data.tileSet[y][x] = {1, 1}
+        data.tileSet[y][x] = {1, 1, {}}
     end
 end
 
@@ -59,7 +59,7 @@ function love.load()
         file = love.filesystem.read(savedata)
         data = lume.deserialize(file)
     end
-    player = Player(data.x, data.y, data.speed, data.location)
+    player = Player(data.x, data.y, data.speed, data.location, data.maxHealth, data.xp)
     -- print(data.newWorld)
 
     maps = {
@@ -176,15 +176,15 @@ function createWorld()
             -- print("ox: " .. ox .. ", oy: " .. oy)
             
             if tileSet[y][x][1] == "1" then
-                createChunk(maps["plains" .. tileSet[y][x][2]], ox, oy)
+                createChunk(maps["plains" .. tileSet[y][x][2]], ox, oy, tileSet[y][x][2])
             elseif tileSet[y][x][1] == "2" then
-                createChunk(maps["lake" .. tileSet[y][x][2]], ox, oy)
+                createChunk(maps["lake" .. tileSet[y][x][2]], ox, oy, tileSet[y][x][2])
             elseif tileSet[y][x][1] == "3" then
-                createChunk(maps["village" .. tileSet[y][x][2]], ox, oy)
+                createChunk(maps["village" .. tileSet[y][x][2]], ox, oy, tileSet[y][x][2])
             elseif tileSet[y][x][1] == "4" then
-                createChunk(maps["shrine1"], ox, oy)
+                createChunk(maps["shrine1"], ox, oy, tileSet[y][x][2])
             elseif tileSet[y][x][1] == "5" then
-                createChunk(maps["forest1"], ox, oy)
+                createChunk(maps["forest1"], ox, oy, tileSet[y][x][2])
             end
             loops = loops + 1
         end
@@ -248,6 +248,8 @@ function saveGame()
     data.y = player.rect.body:getY()
     data.speed = player.speed
     data.location = player.location
+    data.maxHealth = player.maxHealth
+    data.xp = player.xp
     serialized = lume.serialize(data)
     love.filesystem.write(savedata, serialized)
 end
