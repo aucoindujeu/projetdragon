@@ -78,6 +78,9 @@ function love.load()
     }
 
     delayedCallbacks = {}
+
+    numJoysticks = love.joystick.getJoystickCount()
+    joysticks = love.joystick.getJoysticks()
 end
 
 function love.update(dt)
@@ -89,6 +92,9 @@ function love.update(dt)
     lume.clear(delayedCallbacks)
 
     world:update(dt)
+
+    numJoysticks = love.joystick.getJoystickCount()
+    joysticks = love.joystick.getJoysticks()
 end
 
 function love.draw()
@@ -201,6 +207,8 @@ function createChunk(chunk, ox, oy)
                 wall.fixture:setUserData("DoorExterior")
             elseif obj.name == "DoorInteriorHouse" then
                 wall.fixture:setUserData("DoorInteriorHouse")
+            elseif obj.name == "sign1" then
+                wall.fixture:setUserData("sign1")
             end
             table.insert(walls, wall)
         end
@@ -287,6 +295,11 @@ function beginContact(a, b, coll)
         delayedCallbacks.switch = game
     end
 
+    if (a:getUserData() == "Player" or b:getUserData() == "Player") and (a:getUserData() == "sign1" or b:getUserData() == "sign1") then
+        player.reading = "Welcome to the castle!"
+        print("aaaaaa")
+    end
+
     if (a:getUserData() == "Player" or b:getUserData() == "Player") and (a:getUserData() == "Enemy" or b:getUserData() == "Enemy") then
         player.health = player.health - 1
     end
@@ -311,7 +324,7 @@ function beginContact(a, b, coll)
         end
     end
 
-    if (a:getUserData() == "Sword" or b:getUserData() == "Sword") and (a:getUserData() == "Enemy" or b:getUserData() == "Enemy") then
+    if ((a:getUserData() == "Sword" or b:getUserData() == "Sword") or (a:getUserData() == "boomerang" or b:getUserData() == "boomerang")) and (a:getUserData() == "Enemy" or b:getUserData() == "Enemy") then
         if a:getUserData() == "Enemy" then
             enemiesHealth[a] = enemiesHealth[a] - 1
         else

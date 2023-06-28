@@ -101,7 +101,7 @@
   <object id="22" x="208" y="256" width="16" height="16"/>
   <object id="23" x="128" y="256" width="16" height="16"/>
   <object id="24" x="16" y="256" width="32" height="48"/>
-  <object id="25" x="144" y="304" width="16" height="16"/>
+  <object id="25" name="sign1" x="144" y="304" width="16" height="16"/>
   <object id="26" x="96" y="176" width="32" height="32"/>
   <object id="27" x="192" y="176" width="32" height="32"/>
   <object id="28" x="192" y="80" width="32" height="32"/>

@@ -466,7 +466,7 @@ return {
         },
         {
           id = 25,
-          name = "",
+          name = "sign1",
           type = "",
           shape = "rectangle",
           x = 144,

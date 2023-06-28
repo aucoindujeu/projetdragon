@@ -8,7 +8,24 @@ function Player:new(x, y, speed, location, maxHealth, xp)
     self.location = location
     self.speed = speed
 
+    self.reading = ""
+    self.readingTimer = 0
+
     self.dir = "down"
+
+    self.boomerang = {
+        rect = nil,
+        available = true,
+        angle = 0,
+        timer = 0,
+        thrown = false,
+        going = true,
+        returning = false,
+        vx = 0,
+        vy = 0,
+        speed = 200,
+        image = love.graphics.newImage("images/banana.png")
+    }
 
     self.AnimationWalkTimer = 1
     self.AnimationAttackTimer = 1
@@ -67,6 +84,14 @@ function Player:update(dt)
         self.AnimationWalkTimer = 1
     end
 
+    if not (self.reading == "") then
+        self.readingTimer = self.readingTimer + dt
+        if self.readingTimer > 3 then
+            self.readingTimer = 0
+            self.reading = ""
+        end
+    end
+
     if self.attacking then
         self.AnimationAttackTimer = self.AnimationAttackTimer + dt * 5
         if self.AnimationAttackTimer >= 4 then
@@ -82,22 +107,68 @@ function Player:update(dt)
 
     self.walking = false
 
-    if love.keyboard.isDown("space") then
-        self:attack()
+    if numJoysticks < 1 then
+        if love.keyboard.isDown("space") then
+            self:attack()
+        
+        elseif love.keyboard.isDown("c") and not self.boomerang.thrown then
+            self:boomerangThrow()
 
-    elseif not self.attacking then
-        if love.keyboard.isDown("left") then
-            self:left()
-        elseif love.keyboard.isDown("right") then
-            self:right()
+        elseif not self.attacking then
+            if love.keyboard.isDown("left") then
+                self:left()
+            elseif love.keyboard.isDown("right") then
+                self:right()
+            end
+
+            if love.keyboard.isDown("up") then
+                self:up()
+            elseif love.keyboard.isDown("down") then
+                self:down()
+            end
         end
+    else
+        if joysticks[1]:isDown(1) then
+            self:attack()
 
-        if love.keyboard.isDown("up") then
-            self:up()
-        elseif love.keyboard.isDown("down") then
-            self:down()
+        elseif not self.attacking then
+            if joysticks[1]:getAxis(1) < -0.1 then
+                self:left()
+            elseif joysticks[1]:getAxis(1) > 0.1 then
+                self:right()
+            end
+
+            if joysticks[1]:getAxis(2) < -0.1 then
+                self:up()
+            elseif joysticks[1]:getAxis(2) > 0.1 then
+                self:down()
+            end
         end
     end
+
+
+    if self.boomerang.thrown then
+        self.boomerang.angle = self.boomerang.angle + dt * 5
+        self.boomerang.timer = self.boomerang.timer + dt
+        if self.boomerang.timer > 1 then
+            self.boomerang.going = false
+            self.boomerang.returning = true
+
+            self.boomerang.vx, self.boomerang.vy = lume.vector(lume.angle(self.boomerang.rect.body:getX(), self.boomerang.rect.body:getY(), self.rect.body:getX(), self.rect.body:getY()), 
+                                                    self.boomerang.speed)
+            
+            if lume.distance(self.boomerang.rect.body:getX(), self.boomerang.rect.body:getY(), self.rect.body:getX(), self.rect.body:getY()) < 30 then
+                self.boomerang.thrown = false
+                self.boomerang.returning = false
+                self.boomerang.timer = 0
+                self.boomerang.vx = 0
+                self.boomerang.vy = 0
+            end
+        end
+
+        self.boomerang.rect.body:setLinearVelocity(self.boomerang.vx, self.boomerang.vy)
+    end
+
 
     self.rect.body:setLinearVelocity(vx, vy)
 
@@ -180,6 +251,15 @@ function Player:draw()
                                 self.rect.height / self.AnimationWalkRight[1]:getHeight())
         end
     end
+
+    if self.boomerang.thrown then
+        love.graphics.draw(self.boomerang.image, self.boomerang.rect.body:getX(), self.boomerang.rect.body:getY(),
+                            self.boomerang.angle,
+                            self.boomerang.rect.width / self.boomerang.image:getWidth(),
+                            self.boomerang.rect.height / self.boomerang.image:getHeight(),
+                            self.boomerang.rect.width / 2,
+                            self.boomerang.rect.height / 2)
+    end
 end
 
 function Player:left()
@@ -204,6 +284,27 @@ function Player:down()
     vy = self.speed
     self.walking = true
     self.dir = "down"
+end
+
+function Player:boomerangThrow()
+    self.boomerang.thrown = true
+    self.boomerang.going = true
+
+    if self.dir == "down" then
+        self.boomerang.vy = self.boomerang.speed
+        self.boomerang.rect = createRect(self.rect.body:getX() + self.rect.width / 2, self.rect.body:getY() + self.rect.height, 10, 10, "dynamic", 1)
+    elseif self.dir == "up" then
+        self.boomerang.vy = -self.boomerang.speed
+        self.boomerang.rect = createRect(self.rect.body:getX() + self.rect.width / 2, self.rect.body:getY(), 10, 10, "dynamic", 1)
+    elseif self.dir == "left" then
+        self.boomerang.vx = -self.boomerang.speed
+        self.boomerang.rect = createRect(self.rect.body:getX(), self.rect.body:getY() + self.rect.height / 2, 10, 10, "dynamic", 1)
+    elseif self.dir == "right" then
+        self.boomerang.vx = self.boomerang.speed
+        self.boomerang.rect = createRect(self.rect.body:getX() + self.rect.width, self.rect.body:getY() + self.rect.height / 2, 10, 10, "dynamic", 1)
+    end
+
+    self.boomerang.rect.fixture:setUserData("boomerang")
 end
 
 function Player:attack()
@@ -234,6 +335,9 @@ function Player:drawHearts(x, y)
     end
 
     love.graphics.print("xp: " .. self.xp, font, 0, 100)
+
+    -- TODO: add nice graphics
+    love.graphics.print(self.reading, font, 200, 100)
 end
 
 function Player:heal(amount)
